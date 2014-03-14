@@ -11,29 +11,32 @@ var ObjectId = mongojs.ObjectId;
 // @property {date} createDate
 // @property {date} lastUpdate
 function Base() {
-
     this.createDate = new Date();
     this.lastUpdate = new Date();
-
-    // save
-    // @params {Base} obj.
-    // @params { function(success, data) } callback
-    this.save = function(callback) {
-        var obj = this;
-        var collection = db.collection(obj.entity);
-        collection.save(obj, function(err, success) {
-            if (success) {
-                callback(true, success);
-            } else {
-                console.error("[Update DB Failed]");
-                console.error(err);
-                callback(false, err);
-            }
-        });
-    };
-
     Object.preventExtensions(this);
 }
+
+// save
+// @params {Base} obj.
+// @params { function(success, data) } callback
+Base.prototype.save = function(callback) {
+
+    console.log("[Save]");
+    console.log(this);
+
+    var obj = this;
+    var collection = db.collection(obj.entity);
+    collection.save(obj, function(err, success) {
+        if (success) {
+            callback(true, success);
+        } else {
+            console.error("[Update DB Failed]");
+            console.error(err);
+            callback(false, err);
+        }
+    });
+};
+
 
 // Static method
 // @params {string} id
@@ -81,23 +84,33 @@ Base.update = function(object, callback) {
 
     Base.findById(id, entity, function(success, data) {
 
-        data.prototype.save = Base.prototype.save;
-
         if (success) {
-            data.lastModify = new Date();
+
+            console.log("[Query Update]");
+            console.log(data);
 
             for (var key in data) {
-                var value = data[value];
+                var value = data[key];
+
+                console.log("[Key Value]");
+                console.log(key);
+                console.log(value);
+
+                if (key == "entity") continue;
                 if (key == "createDate") continue;
                 if (key == "lastModify") continue;
-                if (key.indexOf("date")) {
+
+                if (key.indexOf("date") != -1) {
                     data[key] = new Date(value);
                 } else {
-                    data[key] = value;
+                    if (object.hasOwnProperty(key) && data.hasOwnProperty(key)) {
+                        data[key] = object[key];
+                    }
                 }
             }
 
-            data.save(callback);
+            data.lastUpdate = new Date();
+            Base.prototype.save.call(data, callback);
 
         } else {
             callback(false, data);
