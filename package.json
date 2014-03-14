@@ -12,6 +12,7 @@
     "grunt-nodemon": "~0.2.0",
     "mine": "0.0.2",
     "grunt-contrib-concat": "~0.3.0",
-    "chai": "~1.9.0"
+    "chai": "~1.9.0",
+    "mongojs": "~0.10.1"
   }
 }
