@@ -1,20 +1,36 @@
-/* Fixed header and footer.
-/** --------------------------------------- */
-/*#header, #footer{*/
-    /*position:fixed;*/
-    /*height: 50px;*/
-    /*display:block;*/
-    /*width: 100%;*/
-    /*background: #333;*/
-    /*z-index:9;*/
-    /*text-align:center;*/
-    /*color: #f2f2f2;*/
-    /*padding: 20px 0 0 0;*/
-/*}*/
+.live-content {
+}
 
-/*#header{*/
-    /*top:0px;*/
-/*}*/
-/*#footer{*/
-    /*bottom:0px;*/
-/*}*/
+.live-header {
+    height: 100px;
+}
+
+.live-menu {
+    font-size: 80%;
+    color: green;
+}
+
+.live-menu > nav > a {
+    color:#000000;
+    text-shadow: 1px 1px 1px white;
+}
+
+.live-header {
+}
+
+.live-view {
+   padding-top: 10px;
+}
+
+
+.live-branch {
+    /*background-image: url("/images/bg1.jpg");*/
+    background-size: 100% auto;
+}
+
+
+body {
+    background-image: url("/images/bg1.jpg");
+    background-size: 100% auto;
+    padding: 50px;
+}

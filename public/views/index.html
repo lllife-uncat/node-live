@@ -5,51 +5,50 @@
     <head>
         <meta charset="UTF-8">
 
-        <!-- _ -->
         <script src="/vendors/jquery/jquery.js"></script>
-        <!--<script src="/vendors/jqueryui/jquery-ui.min.js"></script>-->
-
-
+        <script src="/vendors/semantic/javascript/semantic.js"></script>
         <script src="/vendors/angular/angular.js"></script>
         <script src="/vendors/angular-route/angular-route.js"></script>
-
-        <!-- application -->
         <script src="/final.js"></script>
 
         <!-- dev -->
         <script src="//10.0.0.67:3333/livereload.js"></script>
 
-
-        <script src="/vendors/StackSlider/js/modernizr.custom.63321.js"></script>
-
-        <link rel="stylesheet" href="/vendors/StackSlider/css/style.css"/>
-        <link rel="stylesheet" href="/vendors/IconHoverEffects/css/component.css"/>
-        <link rel="stylesheet" href="/vendors/LoadingAnimations/css/style.css"/>
-
-        <!-- style -->
+        <!--<link rel="stylesheet" href="/vendors/StackSlider/css/style.css"/>-->
+        <!--<link rel="stylesheet" href="/vendors/IconHoverEffects/css/component.css"/>-->
         <link rel="stylesheet" href="/vendors/animate.css/animate.css"/>
         <link rel="stylesheet" href="/css/style.css"/>
+        <link rel="stylesheet" href="/vendors/semantic/css/semantic.css"/>
+        <link rel="stylesheet" href="/vendors/CreativeLinkEffects/css/component.css"/>
 
     </head>
 
     <body data-ng-app="liveApplication" data-ng-controller="MainController">
 
+    <header class="live-header">
+    </header>
 
-    <div id="header" ng-if="true">
-        <div class="hi-icon-wrap hi-icon-effect-9 hi-icon-effect-9b">
-            <a href="#/home" class="hi-icon hi-icon-videos animated rotateIn" style="text-decoration: none;">Desktop</a>
-            <a href="#/upload" class="hi-icon hi-icon-earth animated rotateIn" style="text-decoration: none;">Desktop</a>
-            <a href="#set-1" class="hi-icon hi-icon-list animated rotateIn" style="text-decoration: none;">Support</a>
+    <div class="live-content ">
+
+
+        <div class="live-menu">
+            <nav class="cl-effect-3">
+                <a href="#/home"><i class="ui icon home"></i> Home</a>
+                <a href="#/branch"><i class="ui icon sitemap"></i> Branch</a>
+                <a href="#/video"><i class="ui icon video"></i> Video</a>
+                <a href="#/picture"><i class="ui icon photo"></i> Picture</a>
+                <a href="#/picture">
+                    Picture
+                </a>
+            </nav>
         </div>
-    </div>
-    <div></div>
 
-    <div>
-        <div data-ng-view></div>
-    </div>
 
-    <script src="/vendors/StackSlider/js/jquery.stackslider.js"></script>
-    <script src="/vendors/IconHoverEffects/js/component.js"></script>
+        <div class="live-view">
+            <div data-ng-view></div>
+        </div>
+
+    </div>
 
     </body>
 

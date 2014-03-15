@@ -3,10 +3,17 @@ var Base = models.Base;
 
 module.exports = function(app) {
 
+    // Get /
+    // * Web entry point
+    // * Send index.html from static folder
     app.get("/", function(req, res) {
         res.sendfile("./public/views/index.html");
     });
 
+    // Post /findById
+    // * Find document by id
+    // @request body
+    // { _id: "xxx", entity: "Names" }
     app.post("/findById", function(req, res) {
         var body = req.body;
         var id = body._id;
@@ -19,6 +26,10 @@ module.exports = function(app) {
 
     });
 
+    // Post /findAllByExample
+    // * Find document by sample object
+    // @request body
+    // { entity: "Names", xx: "xx", yy: "yy" }
     app.post("/findAllByExample", function(req, res) {
         var body = req.body;
         Base.findAllByExample(body, body.entity, function(success, documents) {
@@ -27,6 +38,10 @@ module.exports = function(app) {
         });
     });
 
+    // Post /update
+    // * Insert/Update document
+    // @request body
+    // { entity: "Names", xx: "xx", yy: "yy" }
     app.post("/update", function(req, res) {
         var object = req.body;
         var entity = object.entity;
@@ -36,6 +51,5 @@ module.exports = function(app) {
             if (!success) res.statusCode = 400;
             res.json(data);
         });
-
     });
 };

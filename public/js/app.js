@@ -16,6 +16,21 @@ app.config(function($routeProvider){
         controller: "UploadController"
     });
 
+    $routeProvider.when("/branch", {
+        templateUrl: "views/branch.html",
+        controller: "BranchController"
+    });
+
+    $routeProvider.when("/video", {
+        templateUrl : "views/video.html",
+        controller: "VideoController"
+    });
+
+    $routeProvider.when("/picture", {
+        templateUrl : "views/picture.html",
+        controller: "PictureController"
+    });
+
     $routeProvider.otherwise({ redirect: "/"});
 });
 

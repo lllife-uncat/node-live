@@ -2,15 +2,15 @@ var expect = require("chai").expect;
 var models = require("../app/modules/db.js").models;
 var Base = models.Base;
 
-describe("Entity", function() {
-    describe("(insert,update,delete)", function() {
+describe("[Entity]", function() {
+    describe("", function() {
         it("should save device success", function(done) {
 
             var device = new models.Device();
-            device.deviceId = "D002";
+            device.deviceId = "D003";
             device.serialNumber = "S/N 002";
 
-            device.save(function(success, data) {
+            Base.update(device, function(success, data) {
                 expect(success).to.equal(true);
                 expect(data).to.not.equal(null);
                 done();
@@ -19,18 +19,17 @@ describe("Entity", function() {
         });
 
         it("should find by id success", function(done) {
-            var id = "53231451f519cc89955c7110";
+            var id = "53245329b53e2c019d52a839";
             Base.findById(id, "Devices", function(success, data) {
                 expect(success).to.equal(true);
                 expect(data).to.not.equal(null);
-                console.log(data);
                 done();
             });
         });
 
-        it("should find by example sucess", function(done) {
+        it("should find by example success", function(done) {
             var example = {
-                deviceId: "D001"
+                deviceId: "D002"
             };
             Base.findByExample(example, "Devices", function(success, data) {
                 expect(success).to.equal(true);
@@ -39,18 +38,29 @@ describe("Entity", function() {
             });
         });
 
+        it("should not find unallow entity", function(done) {
+
+            var example = {
+                deviceId: "D001"
+            };
+
+            Base.findAllByExample(example, "Xevices", function(success, data) {
+                expect(success).to.equal(false);
+            });
+
+        });
+
         it("should find all by example success", function(done) {
             var example = {
-                deviceId : "D002"
+                deviceId: "D002"
             };
 
             Base.findAllByExample(example, "Devices", function(success, data) {
                 expect(success).to.equal(true);
-                expect(data.length > 5).to.equal(true);
+                expect(data.length > 1).to.equal(true);
 
                 done();
             });
-
         });
     });
 });
