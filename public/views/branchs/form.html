@@ -1,8 +1,48 @@
-<div class="ui form">
-    <div class="ui four fields">
-        <div class="field">
-            <label for="">Branch ID</label>
-            <input type="text"/>
+<div class="ui segment animated" data-ng-class="{ fadeIn: editMode, fadeOut: !editMode }" ng-if="editMode">
+    <div class="ui form ">
+        <div class="ui two fields">
+            <div class="field">
+                <label for="">
+                    <!--<i class="ui photo icon animated fadeIn"></i>-->
+                    Branch ID
+                </label>
+                <input type="text" data-ng-model="currentBranch.branchId"/>
+            </div>
+            <div class="field">
+                <label for="">
+                    <!--<i class="ui photo icon animated fadeIn"></i>-->
+                    Name
+                </label>
+                <input type="text" data-ng-model="currentBranch.name"/>
+            </div>
+
+        </div>
+
+        <div>
+            <div class="field">
+                <label for="">
+                    Description
+                </label>
+                <textarea class="live-control" rows="2" data-ng-model="currentBranch.description"></textarea>
+            </div>
+        </div>
+
+
+        <div data-ng-include src=" '/views/branchs/device.html' ">
         </div>
     </div>
+
+    <div class="ui fields">
+        <div class="ui mini button" data-ng-click="save(currentBranch)">
+            <i class="ui save icon"></i>
+            Save
+        </div>
+
+        <div class="ui mini button" data-ng-click="toggleMode()">
+            <i class="ui close icon"></i>
+            Close
+        </div>
+    </div>
+
 </div>
+

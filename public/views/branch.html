@@ -1,3 +1,34 @@
-<div class="ui raised segment animated fadeIn live-branch">
-    <div ng-include src=" '/views/branchs/form.html' "></div>
+<div class="ui grid">
+    <div class="six wide column">
+        <div class="ui segment">
+
+            <div class="ui mini button" data-ng-click="addBranch()">
+                <i class="add icon"></i> New Branch
+            </div>
+
+            <div class="ui secondary vertical pointing menu" style="width: 100%">
+                <a class="item animated fadeInUp" data-ng-repeat="branch in branchs"
+                   data-ng-class="{ 'active' : isSelected(branch) }"
+                   data-ng-click="selectBranch(branch)">
+                    <i class="home icon animated rotateIn"></i> {{branch.name}}
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="ten wide column">
+        <div class="animated fadeIn live-branch">
+            <div ng-include src=" '/views/branchs/form.html' " style="margin-bottom: 10px">
+            </div>
+        </div>
+
+        <div data-ng-include src=" '/views/branchs/table.html' ">
+        </div>
+    </div>
+
 </div>
+
+
+
+

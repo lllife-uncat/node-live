@@ -1,4 +1,4 @@
-app.factory("UIService", function(){
+app.factory("uiService", function(){
 
 
 

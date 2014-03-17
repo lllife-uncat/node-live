@@ -1,0 +1,33 @@
+<div>
+    <table class="ui mini table">
+        <thead>
+            <tr>
+                <th><i class="ui bolt icon"></i></th>
+                <th><label for="">Device ID</label></th>
+                <th><label for="">S/N</label></th>
+                <th><label for="">Remove</label></th>
+            </tr>
+        </thead>
+
+        <tbody>
+        <tr data-ng-repeat="id in currentBranch.deviceIds" class="animated fadeIn">
+            <td>
+                <i class="ui tablet icon"  data-ng-class=" { red: currentDevice._id == id}"> </i>
+                {{$index+1}}
+            </td>
+            <td> {{getDevice(id).deviceId}}</td>
+            <td>{{getDevice(id).serialNumber}}</td>
+            <td>
+                <div class="ui mini button" data-ng-click="editDevice(id)">
+                    <i class="ui edit icon">  </i>
+                </div>
+
+                <div class="ui mini button" data-ng-click="removeDevice(id)">
+                    <i class="ui remove icon"></i>
+                </div>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

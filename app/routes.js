@@ -14,7 +14,7 @@ module.exports = function(app) {
     // * Find document by id
     // @request body
     // { _id: "xxx", entity: "Names" }
-    app.post("/findById", function(req, res) {
+    app.post("/api/findById", function(req, res) {
         var body = req.body;
         var id = body._id;
         var entity = body.entity;
@@ -30,7 +30,7 @@ module.exports = function(app) {
     // * Find document by sample object
     // @request body
     // { entity: "Names", xx: "xx", yy: "yy" }
-    app.post("/findAllByExample", function(req, res) {
+    app.post("/api/findAllByExample", function(req, res) {
         var body = req.body;
         Base.findAllByExample(body, body.entity, function(success, documents) {
             if (!success) res.statusCode = 400;
@@ -42,12 +42,11 @@ module.exports = function(app) {
     // * Insert/Update document
     // @request body
     // { entity: "Names", xx: "xx", yy: "yy" }
-    app.post("/update", function(req, res) {
-        var object = req.body;
-        var entity = object.entity;
-        object.lastUpdate = new Date();
+    app.post("/api/update", function(req, res) {
+        var entity = req.body;
+        entity.lastUpdate = new Date();
 
-        Base.update(object, function(success, data) {
+        Base.update(entity, function(success, data) {
             if (!success) res.statusCode = 400;
             res.json(data);
         });

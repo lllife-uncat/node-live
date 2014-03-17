@@ -11,31 +11,28 @@ var ObjectId = mongojs.ObjectId;
 // @property {date} createDate
 // @property {date} lastUpdate
 function Base() {
+    this._id = null;
     this.createDate = new Date();
     this.lastUpdate = new Date();
-    Object.preventExtensions(this);
+    this.publish = true;
+
+    // @params {Base} obj.
+    // @params { function(success, data) } callback
+    this.save = function(callback) {
+        var collection = db.collection(this.entity);
+        collection.save(this, function(err, success) {
+            if (success) {
+                console.log("[Update Success]");
+                console.log(success);
+                callback(true, success);
+            } else {
+                console.error("[Update DB Failed]");
+                console.error(err);
+                callback(false, err);
+            }
+        });
+    };
 }
-
-// save
-// @params {Base} obj.
-// @params { function(success, data) } callback
-Base.prototype.save = function(callback) {
-
-    //console.log("[Save]");
-    //console.log(this);
-
-    var obj = this;
-    var collection = db.collection(obj.entity);
-    collection.save(obj, function(err, success) {
-        if (success) {
-            callback(true, success);
-        } else {
-            console.error("[Update DB Failed]");
-            console.error(err);
-            callback(false, err);
-        }
-    });
-};
 
 
 // Static method
@@ -72,14 +69,59 @@ Base.findByExample = function(example, entity, callback) {
 // @params {string} entity name
 // @parms {funcion} callback
 Base.findAllByExample = function(example, entity, callback) {
+    var allow = Base.allow(entity);
+    if (!allow) {
+        callback(false, "Not allow");
+        return;
+    }
+
     var collection = db.collection(entity);
     collection.find(example, function(err, documents) {
         if (err) {
+            console.error("[Find All by Example]");
+            console.error(err);
             callback(false, err);
         } else {
             callback(true, documents);
         }
     });
+};
+
+Base.create = function(entity) {
+    var ouptput = new Base();
+    if (entity === "Devices") output = new Device();
+    else if (entity === "Branchs") output = new Branch();
+    else if (entity === "Videos") output = new Video();
+    else if (entity === "Picture") output = new Picture();
+    return output;
+};
+
+Base.clone = function(input, output) {
+    for (var key in output) {
+        var value = input[key];
+        //if (key == "entity") continue;
+        if (key == "createDate") continue;
+        if (key == "lastModify") continue;
+        if (key == "_id" && value !== null) continue;
+
+        if (key.indexOf("date") != -1) {
+            output[key] = new Date(value);
+        } else {
+            if (output.hasOwnProperty(key) && input.hasOwnProperty(key)) {
+                output[key] = input[key];
+            }
+        }
+    }
+
+    return output;
+};
+
+Base.allow = function(entity) {
+    var allows = ["Devices", "Branchs", "Pictures", "Videos", "PictureGalleries", "videoGalleries"];
+    if (allows.indexOf(entity) == -1) {
+        return false;
+    }
+    return true;
 };
 
 // Update exist object
@@ -92,8 +134,7 @@ Base.update = function(object, callback) {
     // Check is entity valid
     var id = object._id;
     var entity = object.entity;
-    var allows = ["Devices", "Branchs", "Pictures", "Videos", "PictureGalleries", "videoGalleries"];
-    if (allows.indexOf(entity) == -1) {
+    if (!Base.allow(entity)) {
         callback(false, {
             message: "Not allow"
         });
@@ -105,29 +146,16 @@ Base.update = function(object, callback) {
     // Else
     // * Update exist document
     if (!id) {
-        Base.prototype.save.call(object, callback);
+        var data = Base.create(object.entity);
+        var realData = Base.clone(object, data);
+        realData.save(callback);
     } else {
         Base.findById(id, entity, function(success, data) {
             if (success) {
-
-                for (var key in data) {
-                    var value = data[key];
-                    if (key == "entity") continue;
-                    if (key == "createDate") continue;
-                    if (key == "lastModify") continue;
-
-                    if (key.indexOf("date") != -1) {
-                        data[key] = new Date(value);
-                    } else {
-                        if (object.hasOwnProperty(key) && data.hasOwnProperty(key)) {
-                            data[key] = object[key];
-                        }
-                    }
-                }
-
+                var newData = Base.clone(object, data);
                 if (data) {
-                    data.lastUpdate = new Date();
-                    Base.prototype.save.call(data, callback);
+                    newData.lastUpdate = new Date();
+                    new Base().save.call(newData, callback);
                 } else {
                     callback(false, {
                         message: "Not found"
@@ -171,6 +199,7 @@ function Picture() {
 // @property {string} name
 // @property {string} description
 function Branch() {
+    this.branchId = "";
     this.name = "";
     this.description = "";
     this.deviceIds = [];

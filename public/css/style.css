@@ -2,6 +2,9 @@
 }
 
 .live-header {
+    /*background-image: url("/images/back.jpg");*/
+    background-repeat: no-repeat;
+    /*background-size: 100% auto;*/
     height: 100px;
 }
 
@@ -20,17 +23,43 @@
 
 .live-view {
    padding-top: 10px;
+    max-width: 850px;
 }
-
 
 .live-branch {
     /*background-image: url("/images/bg1.jpg");*/
     background-size: 100% auto;
 }
 
+.form > .fields > .field > input[type=text] {
+    height: 35px;
+}
+
+.fields > .field > label {
+    font-size: 70%;
+    font-family: "Helvetica Neue", Helvetica, Arial;
+}
 
 body {
-    background-image: url("/images/bg1.jpg");
+    /*background-image: url("/images/img.jpg");*/
+    background-color: #79a8c7;
     background-size: 100% auto;
     padding: 50px;
+}
+
+div > div.field > textarea.live-control {
+    height: 30px;
+}
+
+table.ui > thead > tr > th {
+    font-size: 90%;
+}
+
+table.ui > tbody > tr > td {
+    font-size: 90%;
+}
+
+div.ui.button {
+    text-transform: none;
+    /*box-shadow: 1px 0px 2px lightgray;*/
 }

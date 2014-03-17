@@ -1,0 +1,23 @@
+<div class="ui form" style="padding-bottom: 10px">
+   <div class="ui three fields">
+      <div class="ui field">
+          <label for="">Device ID</label>
+          <input type="text" data-ng-model="currentDevice.deviceId"/>
+      </div>
+
+       <div class="ui field">
+           <label for="">Serial Number</label>
+           <input type="text" data-ng-model="currentDevice.serialNumber"/>
+       </div>
+
+       <div class="ui field">
+           <label for=""><span style="color: white">X</span></label>
+          <div class="ui mini button"  data-ng-click="addDevice(currentDevice)">
+              <i class="ui add icon"></i> Save Device
+          </div>
+       </div>
+   </div>
+</div>
+
+<div ng-if="currentBranch.deviceIds.length > 0"
+        data-ng-include src=" '/views/branchs/device_table.html' " style="margin-bottom: 10px"></div>

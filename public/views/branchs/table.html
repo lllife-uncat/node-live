@@ -1,0 +1,34 @@
+<table class="ui mini table segment">
+    <thead>
+    <tr>
+        <th><i class="ui bolt icon"></i></th>
+        <th><label for="">Branch ID</label></th>
+        <th><label for="">Name</label></th>
+        <th><label for="">Devices</label></th>
+        <th><label for="">Edit / Remove</label></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr data-ng-repeat="branch in branchs" class="animated fadeIn">
+        <td>{{$index + 1}}</td>
+        <td>{{branch.branchId}}</td>
+        <td>{{branch.name}}</td>
+        <td>
+            <i class="ui tablet icon"
+               data-ng-repeat="device in branch.deviceIds"
+                data-ng-class=" { red: currentDevice._id == device}">
+            </i>
+        </td>
+        <td>
+            <div class="ui mini button" data-ng-click="editBranch(branch)">
+                <i class="ui edit icon animated rotateIn"></i>
+            </div>
+
+            <div class="ui mini button" data-ng-click="removeBranch(branch)">
+                <i class="ui remove icon animated rotateIn"></i>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>

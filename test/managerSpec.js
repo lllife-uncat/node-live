@@ -3,14 +3,42 @@ var models = require("../app/modules/db.js").models;
 var Base = models.Base;
 
 describe("[Entity]", function() {
-    describe("", function() {
-        it("should save device success", function(done) {
+
+    describe("[Device]", function() {
+        it("should interite success", function(done) {
+            var device = new models.Device();
+            expect(device.save).to.not.equal(undefined);
+            done();
+        });
+    });
+
+    describe("[Device]", function() {
+        it("should update success", function(done, skip) {
+
+            skip();
+
+            var branch = new models.Branch();
+            Base.update(branch, function(success, data) {
+                expect(success).to.equal(true);
+                expect(data).to.not.equal(null);
+                done();
+            });
+        });
+    });
+
+    describe("[Device]", function() {
+        it("should save success", function(done, skip) {
+
+            skip();
 
             var device = new models.Device();
             device.deviceId = "D003";
             device.serialNumber = "S/N 002";
 
-            Base.update(device, function(success, data) {
+            //Base.update(device, function(success, data) {
+            device.save(function(success, data) {
+                if (!success) console.error("Error", data);
+
                 expect(success).to.equal(true);
                 expect(data).to.not.equal(null);
                 done();
@@ -27,18 +55,19 @@ describe("[Entity]", function() {
             });
         });
 
+
         it("should find by example success", function(done) {
             var example = {
                 deviceId: "D002"
             };
             Base.findByExample(example, "Devices", function(success, data) {
                 expect(success).to.equal(true);
-                expect(data.deviceId).to.equals("D001");
+                expect(data.deviceId).to.equals("D002");
                 done();
             });
         });
 
-        it("should not find unallow entity", function(done) {
+        it("should not find un-allow entity", function(done) {
 
             var example = {
                 deviceId: "D001"
@@ -46,8 +75,8 @@ describe("[Entity]", function() {
 
             Base.findAllByExample(example, "Xevices", function(success, data) {
                 expect(success).to.equal(false);
+                done();
             });
-
         });
 
         it("should find all by example success", function(done) {
@@ -58,7 +87,6 @@ describe("[Entity]", function() {
             Base.findAllByExample(example, "Devices", function(success, data) {
                 expect(success).to.equal(true);
                 expect(data.length > 1).to.equal(true);
-
                 done();
             });
         });
