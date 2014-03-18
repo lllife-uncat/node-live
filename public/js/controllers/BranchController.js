@@ -12,6 +12,9 @@ app.controller("BranchController", function($scope, models, globalService) {
     function findAllByExampleCallback(success, data) {
         if(success) {
             $scope.branchs = data;
+            if($scope.branchs.length > 0){
+                $scope.currentBranch = $scope.branchs[0];
+            }
         }
     }
 

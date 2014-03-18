@@ -1,4 +1,4 @@
-app.factory("models", function(){
+app.factory("models", function () {
 
     function Branch() {
         this.entity = "Branchs";
@@ -14,8 +14,26 @@ app.factory("models", function(){
         this.serialNumber = "";
     }
 
+    function Picture() {
+        this.title = "";
+        this.description = "";
+        this.entity = "Picutres";
+        this.publish = true;
+    }
+
+    function PictureGallery() {
+        this.title = "";
+        this.description = "";
+        this.objectIds = [];
+        this.entity = "PictureGalleries";
+        this.publish = true;
+        this.$pictures = [];
+    }
+
     return {
         Branch: Branch,
-        Device: Device
+        Device: Device,
+        Picture: Picture,
+        PictureGallery: PictureGallery
     };
 });

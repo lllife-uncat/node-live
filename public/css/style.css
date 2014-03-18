@@ -14,16 +14,26 @@
 }
 
 .live-menu > nav > a {
-    color:#000000;
-    text-shadow: 1px 1px 1px white;
+    color: #000000;
+    /*text-shadow: 1px 1px 1px white;*/
 }
 
 .live-header {
 }
 
 .live-view {
-   padding-top: 10px;
-    max-width: 850px;
+    padding-top: 10px;
+    max-width: 950px;
+}
+
+.live-link {
+    text-decoration: none;
+    font-size: 90%;
+}
+
+a.live-link:hover, a.live-link:visited, a.live-link:active {
+    color: inherit;
+    font-size: 90%;
 }
 
 .live-branch {
@@ -33,6 +43,8 @@
 
 .form > .fields > .field > input[type=text] {
     height: 35px;
+    font-size: 80%;
+    font-weight: bolder;
 }
 
 .fields > .field > label {
@@ -41,9 +53,9 @@
 }
 
 body {
-    /*background-image: url("/images/img.jpg");*/
-    background-color: #79a8c7;
-    background-size: 100% auto;
+    background-image: url("/images/diagonal_waves.png");
+    /*background-color: #79a8c7;*/
+    /*background-size: 100% auto;*/
     padding: 50px;
 }
 
@@ -62,4 +74,35 @@ table.ui > tbody > tr > td {
 div.ui.button {
     text-transform: none;
     /*box-shadow: 1px 0px 2px lightgray;*/
+}
+
+div.ui.menu > a.item {
+    font-size: 14px;
+}
+
+div.list > a.item > div.horizontal.label {
+    text-transform: none;
+    width: 100px;
+}
+
+div.ui.list  a.item  {
+    font-size: 95%;
+}
+
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
 }

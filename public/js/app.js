@@ -1,4 +1,4 @@
-var app = angular.module("liveApplication", [ 'ngRoute' ]);
+var app = angular.module("liveApplication", [ "ngRoute", "angularFileUpload" ]);
 
 app.config(function($routeProvider){
     $routeProvider.when('/', {

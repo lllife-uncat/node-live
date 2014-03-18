@@ -22,6 +22,24 @@ app.factory("globalService", function ($http) {
         });
     }
 
+    function findById(id, entity, callback){
+        var url = "/api/findById";
+        var request = $http({
+           url: url,
+            data: JSON.stringify({ _id: id, entity: entity}),
+            method: "POST",
+            headers: { "Content-Type" : "application/json" }
+        });
+
+        request.success(function(data, status){
+           callback(true, data);
+        });
+
+        request.error(function(data, status){
+           callback(false, data);
+        });
+    }
+
     function findAllByExample(example, callback) {
         var url = "/api/findAllByExample";
         var request = $http ({
@@ -42,6 +60,7 @@ app.factory("globalService", function ($http) {
 
     return {
         update: update,
-        findAllByExample: findAllByExample
+        findAllByExample: findAllByExample,
+        findById: findById
     };
 });

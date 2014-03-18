@@ -88,11 +88,13 @@ Base.findAllByExample = function(example, entity, callback) {
 };
 
 Base.create = function(entity) {
-    var ouptput = new Base();
+    var output = new Base();
     if (entity === "Devices") output = new Device();
     else if (entity === "Branchs") output = new Branch();
     else if (entity === "Videos") output = new Video();
-    else if (entity === "Picture") output = new Picture();
+    else if (entity === "Pictures") output = new Picture();
+    else if (entity === "PictureGalleries") output = new PictureGallery();
+    else if (entity === "VideoGalleries") output= new VideoGallery();
     return output;
 };
 
@@ -188,6 +190,10 @@ function Video() {
 function Picture() {
     this.title = "";
     this.description = "";
+    this.originalName = "";
+    this.contentType = "";
+    this.size = 0;
+    this.path = "";
 
     this.entity = "Pictures";
     Base.apply(this, arguments);

@@ -2,15 +2,24 @@
     <div class="six wide column">
         <div class="ui segment">
 
-            <div class="ui mini button" data-ng-click="addBranch()">
+            <a href="" class="live-link" data-ng-click="addBranch()" >
                 <i class="add icon"></i> New Branch
-            </div>
+            </a>
+
+            <div class="ui section divider" style="margin: 10px 0px"></div>
 
             <div class="ui secondary vertical pointing menu" style="width: 100%">
                 <a class="item animated fadeInUp" data-ng-repeat="branch in branchs"
                    data-ng-class="{ 'active' : isSelected(branch) }"
                    data-ng-click="selectBranch(branch)">
-                    <i class="home icon animated rotateIn"></i> {{branch.name}}
+                    <i class="home icon"
+                       data-ng-class="{ 'animated tada black': isSelected(branch) }"></i>
+                    <span>
+                        {{branch.name}}
+                        <!--<i class="ui red circular label"> {{branch.deviceIds.length}}</i>-->
+                    </span>
+
+
                 </a>
             </div>
 
@@ -19,11 +28,11 @@
 
     <div class="ten wide column">
         <div class="animated fadeIn live-branch">
-            <div ng-include src=" '/views/branchs/form.html' " style="margin-bottom: 10px">
-            </div>
+            <div ng-if="!editMode" data-ng-include src=" '/views/branchs/branch_detail.html' " style="margin-bottom: 10px"> </div>
+            <div ng-if="editMode" data-ng-include src=" '/views/branchs/branch_form.html' " style="margin-bottom: 10px"> </div>
         </div>
 
-        <div data-ng-include src=" '/views/branchs/table.html' ">
+        <div data-ng-include src=" '/views/branchs/branch_table.html' ">
         </div>
     </div>
 

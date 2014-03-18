@@ -1,0 +1,47 @@
+<div class="ui segment">
+    <div class="ui form">
+
+        <div class="ui fields">
+            <div class="ui field">
+                <label for="">Title</label>
+                <input type="text" data-ng-model="currentGallery.title"/>
+            </div>
+        </div>
+
+        <div class="ui">
+            <div class="ui field">
+                <label for="">Description</label>
+                <textarea class="live-control"
+                          data-ng-model="currentGallery.description" name="" id="" cols="30" rows="10"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui">
+        <div class="fileUpload ui mini button">
+            <i class="ui upload icon"></i>
+            <span>Upload Picture</span>
+            <input type="file" accept="image/*"
+                   class="upload" multiple data-ng-file-select="onFileSelect($files)"/>
+        </div>
+
+        <div class="ui segment" data-ng-if="currentGallery.$pictures.length > 0">
+            <div class="ui rounded small images">
+                <img data-ng-repeat="picture in currentGallery.$pictures"
+                     data-ng-src="{{ getPicturePath(picture._id) }}" alt="{{picture.originalName}}"/>
+            </div>
+        </div>
+
+    </div>
+
+    <div style="margin-top: 10px">
+        <div class="ui mini button" data-ng-click="saveGallery(currentGallery)">
+            <i class="ui save icon"></i> Save
+        </div>
+
+        <div class="ui mini button" data-ng-click="toggleMode()">
+            <i class="ui close icon"></i> Close
+        </div>
+    </div>
+
+</div>
