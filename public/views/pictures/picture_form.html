@@ -1,5 +1,5 @@
 <div class="ui segment">
-    <div class="ui form">
+    <div class="ui form ">
 
         <div class="ui fields">
             <div class="ui field">
@@ -28,6 +28,7 @@
         <div class="ui segment" data-ng-if="currentGallery.$pictures.length > 0">
             <div class="ui rounded small images">
                 <img data-ng-repeat="picture in currentGallery.$pictures"
+                     class="animated fadeInDown"
                      data-ng-src="{{ getPicturePath(picture._id) }}" alt="{{picture.originalName}}"/>
             </div>
         </div>

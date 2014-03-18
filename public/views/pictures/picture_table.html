@@ -1,16 +1,16 @@
 <table class="ui table segment">
-   <thead>
+    <thead>
     <tr>
         <th><i class="ui bolt icon"></i></th>
         <th>Title</th>
         <th>Pictures</th>
         <th>Edit / Remove</th>
     </tr>
-   </thead>
+    </thead>
 
     <tbody>
 
-    <tr data-ng-repeat="gallery in galleries">
+    <tr data-ng-repeat="gallery in galleries" class="animated fadeIn">
         <td>{{$index+1}}</td>
         <td>{{gallery.title}}</td>
         <td>{{gallery.objectIds.length}}</td>
@@ -19,7 +19,9 @@
                 <i class="ui edit icon"></i>
             </div>
 
-            <div class="ui mini button" data-ng-click="removeGallery(gallery)">
+            <div class="ui mini button"
+                 data-ng-class="{ 'animated flash': !gallery.publish }"
+                 data-ng-click="removeGallery(gallery)">
                 <i class="ui red remove icon"></i>
             </div>
         </td>

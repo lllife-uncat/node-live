@@ -1,21 +1,30 @@
 .live-content {
+    max-width: 1000px;
+    min-height: 100%;
+    /*background-size: 150% auto ;*/
 }
 
 .live-header {
     /*background-image: url("/images/back.jpg");*/
-    background-repeat: no-repeat;
+    /*background-repeat: no-repeat;*/
     /*background-size: 100% auto;*/
-    height: 100px;
+    /*height: 100px;*/
+}
+
+.live-foot {
+    height: 120px;
 }
 
 .live-menu {
+    /*background-repeat: no-repeat;*/
     font-size: 80%;
     color: green;
 }
 
 .live-menu > nav > a {
     color: #000000;
-    /*text-shadow: 1px 1px 1px white;*/
+    /*letter-spacing: 0.15em;*/
+    text-shadow: 1px -1px 1px gray;
 }
 
 .live-header {
@@ -38,7 +47,7 @@ a.live-link:hover, a.live-link:visited, a.live-link:active {
 
 .live-branch {
     /*background-image: url("/images/bg1.jpg");*/
-    background-size: 100% auto;
+    background-size: auto 100% ;
 }
 
 .form > .fields > .field > input[type=text] {
@@ -47,15 +56,19 @@ a.live-link:hover, a.live-link:visited, a.live-link:active {
     font-weight: bolder;
 }
 
-.fields > .field > label {
-    font-size: 70%;
+.fields > .field > label, .field > label {
+    font-size: 80%;
+    font-weight: bolder;
     font-family: "Helvetica Neue", Helvetica, Arial;
 }
 
+
 body {
     background-image: url("/images/diagonal_waves.png");
+    /*background-image: url("/images/linen_bg_tile.jpg");*/
+    /*background-image: url("/images/img.jpg");*/
     /*background-color: #79a8c7;*/
-    /*background-size: 100% auto;*/
+    /*background-size: 250% auto;*/
     padding: 50px;
 }
 
@@ -78,11 +91,12 @@ div.ui.button {
 
 div.ui.menu > a.item {
     font-size: 14px;
+    letter-spacing: .05em;
 }
 
 div.list > a.item > div.horizontal.label {
     text-transform: none;
-    width: 100px;
+    width: 120px;
 }
 
 div.ui.list  a.item  {
@@ -105,4 +119,17 @@ div.ui.list  a.item  {
     cursor: pointer;
     opacity: 0;
     filter: alpha(opacity=0);
+}
+
+div.images > img {
+    box-shadow: 1px -1px 5px gray;
+}
+
+div.ui.segment {
+    /*background-image: url("/images/2.jpg");*/
+
+    /* Fallback for web browsers that doesn't support RGBa */
+    /*background: rgb(0, 0, 0);*/
+    /* RGBa with 0.6 opacity */
+    /*background: rgba(0, 0, 0, 0.6);*/
 }

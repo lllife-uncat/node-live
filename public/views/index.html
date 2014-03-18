@@ -28,25 +28,35 @@
 
     <body data-ng-app="liveApplication" data-ng-controller="MainController">
 
-    <header class="live-header">
-    </header>
+    <div class="ui raised segment live-content">
 
-    <div class="live-content ">
+        <header class="live-header">
+        </header>
+
+        <div class="">
 
 
-        <div class="live-menu">
-            <nav class="cl-effect-3">
-                <a href="#/home"><i class="ui icon home"></i> Home</a>
-                <a href="#/branch"><i class="ui icon sitemap"></i> Branch</a>
-                <a href="#/video"><i class="ui icon video"></i> Video</a>
-                <a href="#/picture"><i class="ui icon photo"></i> Picture</a>
-            </nav>
+            <div class="live-menu">
+                <nav class="cl-effect-3">
+                    <a href="#/home"><i class="ui icon home"></i> Home</a>
+                    <a href="#/branch"><i class="ui icon sitemap"></i> Branch</a>
+                    <a href="#/video"><i class="ui icon video"></i> Video</a>
+                    <a href="#/picture"><i class="ui icon photo"></i> Picture</a>
+                </nav>
+            </div>
+
+
+            <div class="live-view">
+                <div data-ng-view></div>
+            </div>
+
         </div>
 
 
-        <div class="live-view">
-            <div data-ng-view></div>
-        </div>
+
+    <div class="live-foot">
+
+    </div>
 
     </div>
 

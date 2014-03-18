@@ -269,7 +269,7 @@ app.controller("HomeController", function ($scope, UIService) {
 app.controller("MainController", function($scope){
 
 });
-app.controller("PictureController", function ($scope, globalService, models, $upload) {
+app.controller("PictureController", function ($scope, globalService, models, $upload, $timeout) {
 
     angular.element(document).ready(function () {
         // Get all gallery
@@ -279,19 +279,23 @@ app.controller("PictureController", function ($scope, globalService, models, $up
         globalService.findAllByExample(example, function (success, data) {
             if (success) {
                 $scope.galleries = data;
-                $scope.galleries.forEach(function(g){
-                    g.$pictures = [];
-                    g.objectIds.forEach(function(id){
-                        globalService.findById(id, "Pictures" , function(success, data){
-                            if(success && data) {
-                                g.$pictures.push(data);
-                            }
-                        });
-                    });
+                $scope.galleries.forEach(function (g) {
+                   resolvePictures(g);
                 });
             }
         });
     });
+
+    function resolvePictures(g) {
+        g.$pictures = [];
+        g.objectIds.forEach(function (id) {
+            globalService.findById(id, "Pictures", function (success, data) {
+                if (success && data) {
+                    g.$pictures.push(data);
+                }
+            });
+        });
+    }
 
     $scope.galleries = [];
     $scope.currentGallery = new models.PictureGallery();
@@ -310,22 +314,24 @@ app.controller("PictureController", function ($scope, globalService, models, $up
         $scope.curerntGallery = gallery;
     };
 
-    $scope.editGallery = function(gallery){
+    $scope.editGallery = function (gallery) {
         $scope.editMode = true;
         $scope.currentGallery = gallery;
     };
 
-    $scope.removeGallery = function(gallery){
+    $scope.removeGallery = function (gallery) {
         gallery.publish = false;
-        globalService.update(gallery, function(success, data){
-            if(success) {
-                var index = $scope.galleries.indexOf(gallery);
-                $scope.galleries.splice(index, 1);
-            }
-        });
+        $timeout(function () {
+            globalService.update(gallery, function (success, data) {
+                if (success) {
+                    var index = $scope.galleries.indexOf(gallery);
+                    $scope.galleries.splice(index, 1);
+                }
+            });
+        }, 600);
     };
 
-    $scope.toggleMode = function(){
+    $scope.toggleMode = function () {
         $scope.editMode = !$scope.editMode;
     };
 
@@ -334,8 +340,8 @@ app.controller("PictureController", function ($scope, globalService, models, $up
         // Call update method in global service.
         // If OK
         // * Create new gallery instance.
-        gallery.$pictures.forEach(function(pic){
-            if(gallery.objectIds.indexOf(pic._id) == -1) {
+        gallery.$pictures.forEach(function (pic) {
+            if (gallery.objectIds.indexOf(pic._id) == -1) {
                 gallery.objectIds.push(pic._id);
             }
         });
@@ -344,14 +350,16 @@ app.controller("PictureController", function ($scope, globalService, models, $up
             if (success) {
                 var id = gallery._id;
                 if (!id) {
+                    resolvePictures(data);
                     $scope.galleries.push(data);
                 }
+
                 $scope.currentGallery = new models.PictureGallery();
             }
         });
     };
 
-    $scope.getPicturePath = function(pictureId){
+    $scope.getPicturePath = function (pictureId) {
         return "/api/picture/" + pictureId;
     };
 
@@ -372,7 +380,8 @@ app.controller("PictureController", function ($scope, globalService, models, $up
                 console.log(percent);
             });
 
-            $scope.upload.success(function(data, status, headers, config){
+            $scope.upload.success(function (data, status, headers, config) {
+                console.log($scope.currentGallery);
                 $scope.currentGallery.$pictures.push(data);
             });
         });
