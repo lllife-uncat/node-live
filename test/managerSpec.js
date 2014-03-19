@@ -90,5 +90,18 @@ describe("[Entity]", function() {
                 done();
             });
         });
+
+        it("should update video succuess", function(done) {
+            var video = new models.Video();
+            video.title = "Test title";
+            video.description = "Test description";
+            video.save(function(success, data){
+              expect(success).to.equal(true);
+              expect(data.title).to.equal(data.title);
+              expect(data._id).to.not.equal(null);
+              done();
+            });
+        });
+
     });
 });

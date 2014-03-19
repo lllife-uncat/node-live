@@ -94,7 +94,7 @@ Base.create = function(entity) {
     else if (entity === "Videos") output = new Video();
     else if (entity === "Pictures") output = new Picture();
     else if (entity === "PictureGalleries") output = new PictureGallery();
-    else if (entity === "VideoGalleries") output= new VideoGallery();
+    else if (entity === "VideoGalleries") output = new VideoGallery();
     return output;
 };
 
@@ -119,7 +119,14 @@ Base.clone = function(input, output) {
 };
 
 Base.allow = function(entity) {
-    var allows = ["Devices", "Branchs", "Pictures", "Videos", "PictureGalleries", "videoGalleries"];
+    var allows = [
+        "Devices",
+        "Branchs",
+        "Pictures",
+        "Videos",
+        "PictureGalleries",
+        "VideoGalleries"
+    ];
     if (allows.indexOf(entity) == -1) {
         return false;
     }
@@ -175,11 +182,17 @@ Base.update = function(object, callback) {
 // @property {string} title
 // @property {string} description
 function Video() {
-    this.title = "";
-    this.description = "";
+    //this.title = "";
+    //this.description = "";
+    //this.originalName = "";
+    //this.contentType = "";
+    //this.size = 0;
+    //this.path = "";
+
+    Base.apply(this, arguments);
+    Picture.apply(this, arguments);
 
     this.entity = "Videos";
-    Base.apply(this, arguments);
     Object.preventExtensions(this);
 }
 

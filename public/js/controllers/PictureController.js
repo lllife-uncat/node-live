@@ -12,6 +12,10 @@ app.controller("PictureController", function ($scope, globalService, models, $up
                    resolvePictures(g);
                 });
             }
+
+            if($scope.galleries.length > 0){
+                $scope.currentGallery = $scope.galleries[0];
+            }
         });
     });
 
@@ -28,6 +32,7 @@ app.controller("PictureController", function ($scope, globalService, models, $up
 
     $scope.galleries = [];
     $scope.currentGallery = new models.PictureGallery();
+    $scope.currentPicture = new models.Picture();
     $scope.editMode = false;
 
     $scope.addGallery = function () {
@@ -37,6 +42,25 @@ app.controller("PictureController", function ($scope, globalService, models, $up
 
     $scope.isSelected = function (gallery) {
         return $scope.currentGallery === gallery;
+    };
+
+    $scope.selectPicture = function(picture){
+        $scope.currentPicture = picture;
+    };
+
+    $scope.removePicture = function(picture){
+        picture.publish = false;
+        $timeout(function(){
+            var index = $scope.currentGallery.$pictures.indexOf(picture);
+            $scope.currentGallery.$pictures.splice(index,1);
+            $scope.currentPicture = null;
+        }, 100);
+    };
+
+    $scope.isSelectedPicture = function(picture){
+        var match =  picture === $scope.currentPicture;
+
+        return match;
     };
 
     $scope.selectGallery = function (gallery) {
@@ -69,10 +93,9 @@ app.controller("PictureController", function ($scope, globalService, models, $up
         // Call update method in global service.
         // If OK
         // * Create new gallery instance.
+        gallery.objectIds = [];
         gallery.$pictures.forEach(function (pic) {
-            if (gallery.objectIds.indexOf(pic._id) == -1) {
-                gallery.objectIds.push(pic._id);
-            }
+            gallery.objectIds.push(pic._id);
         });
 
         globalService.update(gallery, function (success, data) {
@@ -84,6 +107,7 @@ app.controller("PictureController", function ($scope, globalService, models, $up
                 }
 
                 $scope.currentGallery = new models.PictureGallery();
+                $scope.currentPicture = null;
             }
         });
     };
@@ -99,7 +123,7 @@ app.controller("PictureController", function ($scope, globalService, models, $up
     $scope.onFileSelect = function ($files) {
         $files.forEach(function (file) {
             $scope.upload = $upload.upload({
-                url: "/api/upload",
+                url: "/api/upload/picture",
                 data: {},
                 file: file
             });

@@ -1,6 +1,6 @@
 .live-content {
     max-width: 1000px;
-    min-height: 100%;
+    min-height: 750px;
     /*background-size: 150% auto ;*/
 }
 
@@ -17,14 +17,16 @@
 
 .live-menu {
     /*background-repeat: no-repeat;*/
+    /*background-image: url("/images/sos.png");*/
     font-size: 80%;
     color: green;
+    margin: 0;
 }
 
 .live-menu > nav > a {
     color: #000000;
-    /*letter-spacing: 0.15em;*/
-    text-shadow: 1px -1px 1px gray;
+    letter-spacing: 0.15em;
+    /*text-shadow: 1px -1px 1px gray;*/
 }
 
 .live-header {
@@ -64,12 +66,15 @@ a.live-link:hover, a.live-link:visited, a.live-link:active {
 
 
 body {
-    background-image: url("/images/diagonal_waves.png");
-    /*background-image: url("/images/linen_bg_tile.jpg");*/
-    /*background-image: url("/images/img.jpg");*/
+    /*background-image: url("/images/diagonal_waves.png");*/
+    background-image: url("/images/food.png");
     /*background-color: #79a8c7;*/
-    /*background-size: 250% auto;*/
+    /*background-size: 100% auto;*/
     padding: 50px;
+
+    height: 100%;
+    min-height: 100%;
+    background-attachment:fixed;
 }
 
 div > div.field > textarea.live-control {
@@ -84,9 +89,10 @@ table.ui > tbody > tr > td {
     font-size: 90%;
 }
 
-div.ui.button {
-    text-transform: none;
-    /*box-shadow: 1px 0px 2px lightgray;*/
+div.ui.button, span.ui.button {
+    background-image: url("/images/pw_pattern.png");
+    /*text-transform: none;*/
+    /*box-shadow: 1px 1px 5px 9dc1c9;*/
 }
 
 div.ui.menu > a.item {
@@ -125,11 +131,21 @@ div.images > img {
     box-shadow: 1px -1px 5px gray;
 }
 
+table.ui.table {
+    background-image: url("/images/sos.png");
+}
 div.ui.segment {
-    /*background-image: url("/images/2.jpg");*/
-
+    background-image: url("/images/crossword.png");
     /* Fallback for web browsers that doesn't support RGBa */
     /*background: rgb(0, 0, 0);*/
     /* RGBa with 0.6 opacity */
     /*background: rgba(0, 0, 0, 0.6);*/
+}
+
+div.ui.segment.live-content {
+    background-image: none;
+}
+
+div.images > img.highlight {
+    box-shadow: -1px -1px 10px red;
 }

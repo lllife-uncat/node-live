@@ -83,22 +83,55 @@ module.exports = function(app) {
         });
     });
 
-    app.post("/api/upload", function(req, res) {
+    function appendBasicInfo(file, output) {
+        output.originalName = file.name;
+        output.contentType = file.type;
+        output.size = file.size;
+        output.title = file.name;
+    }
+
+    app.post("/api/upload/video", function(req, res) {
 
         var body = req.body;
         var file = req.files.file;
         var fileName = file.name;
         var base = configs.uploadPath;
-        var fullPath = utils.createPicturePath(base, fileName);
+        var fullPath = utils.createPicturePath(base, "videos", fileName);
+        var videoPath = fullPath.replace(base, "");
+
+        var video = new models.Video();
+        video.path = videoPath;
+        appendBasicInfo(file, video);
+
+        fs.readFile(file.path, function(err, data) {
+            fs.writeFile(fullPath, data, function(err) {
+                console.log(err);
+            });
+        });
+
+        video.save(function(success, data) {
+            if (success) {
+                res.json(data);
+            } else {
+                res.statusCode = 400;
+                res.join(data);
+            }
+        });
+
+    });
+
+    app.post("/api/upload/picture", function(req, res) {
+
+        var body = req.body;
+        var file = req.files.file;
+        var fileName = file.name;
+        var base = configs.uploadPath;
+        var fullPath = utils.createPicturePath(base, "pictures", fileName);
         var picturePath = fullPath.replace(base, "");
 
         var picture = new models.Picture();
-        //picture.title = body.title;
-        //picture.description = body.description;
         picture.path = picturePath;
-        picture.originalName = fileName;
-        picture.contentType = file.type;
-        picture.size = file.size;
+        appendBasicInfo(file, picture);
 
         fs.readFile(file.path, function(err, data) {
             fs.writeFile(fullPath, data, function(err) {

@@ -4,16 +4,16 @@
         <div class="ui segment">
 
             <a href="" class="live-link" data-ng-click="addGallery()" >
-                <i class="add icon"></i> New Gallery
+                <i class="add circular icon"></i> New Gallery
             </a>
 
             <div class="ui section divider" style="margin: 10px 0px"></div>
 
             <div class="ui secondary vertical pointing menu" style="width: 100%">
-                <a class="item animated fadeInUp" data-ng-repeat="gallery in galleries"
+                <a class="item animated fadeIn" data-ng-repeat="gallery in galleries"
                    data-ng-class="{ 'active' : isSelected(gallery) }"
                    data-ng-click="selectGallery(gallery)">
-                    <i class="home icon"
+                    <i class="photo icon"
                        data-ng-class="{ 'animated tada black': isSelected(gallery), 'animated flash': !gallery.publish }"></i>
                     <span>
                         {{gallery.title}}

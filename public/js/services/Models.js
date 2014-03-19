@@ -30,10 +30,19 @@ app.factory("models", function () {
         this.$pictures = [];
     }
 
+    function VideoGallery() {
+        this.title = "";
+        this.description = "";
+        this.objectIds = [];
+        this.entity = "VideoGalleries";
+        this.$videos = [];
+    }
+
     return {
         Branch: Branch,
         Device: Device,
         Picture: Picture,
-        PictureGallery: PictureGallery
+        PictureGallery: PictureGallery,
+        VideoGallery: VideoGallery
     };
 });

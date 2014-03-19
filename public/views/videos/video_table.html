@@ -3,7 +3,7 @@
     <tr>
         <th><i class="ui bolt icon"></i></th>
         <th>Title</th>
-        <th>Pictures</th>
+        <th>Videos</th>
         <th>Edit / Remove</th>
     </tr>
     </thead>
@@ -13,7 +13,7 @@
     <tr data-ng-repeat="gallery in galleries" class="animated">
         <td>{{$index+1}}</td>
         <td>{{gallery.title}}</td>
-        <td>{{gallery.$pictures.length}}</td>
+        <td>{{gallery.$videos.length}}</td>
         <td>
             <div class="ui mini button" data-ng-click="editGallery(gallery)">
                 <i class="ui edit icon"></i>

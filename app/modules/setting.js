@@ -19,10 +19,10 @@ function createUUID() {
 // create picture path
 // @params {string} base
 // @params {string} fileName
-function createPicturePath(base, fileName) {
+function createPicturePath(base, type, fileName) {
     var time = moment().format("YYYY/MM/DD");
     var uuid = createUUID();
-    var dir = path.join(base, time);
+    var dir = path.join(base, type, time);
 
     var exists = fs.existsSync(dir);
     if(!exists) {

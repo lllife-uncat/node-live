@@ -20,25 +20,25 @@
     <div class="ui">
         <div class="fileUpload ui mini button">
             <i class="ui upload icon"></i>
-            <span>Upload Picture</span>
-            <input type="file" accept="image/*"
+            <span>Upload Video</span>
+            <input type="file" accept="video/*"
                    class="upload" multiple data-ng-file-select="onFileSelect($files)"/>
         </div>
 
         <div class="ui mini button"
-             data-ng-if="currentPicture._id"
-             data-ng-click="removePicture(currentPicture)">
+             data-ng-if="currentVideo._id"
+             data-ng-click="removeVideo(currentVideo)">
             <i class="ui remove icon"></i>
             Remove
         </div>
 
-        <div class="ui basic segment" data-ng-if="currentGallery.$pictures.length != 30" style="min-height: 70px">
+        <div class="ui basic segment" data-ng-if="currentGallery.$videos.length != 30" style="min-height: 70px">
             <div class="ui rounded small images">
-                <img data-ng-repeat="picture in currentGallery.$pictures"
+                <img data-ng-repeat="video in currentGallery.$videos"
                      class="animated fadeInDown"
-                     data-ng-class="{ highlight: isSelectedPicture(picture), 'animated fadeOutDown': !picture.publish }"
-                     data-ng-click="selectPicture(picture)"
-                     data-ng-src="{{ getPicturePath(picture._id) }}" alt="{{picture.originalName}}"/>
+                     data-ng-class="{ highlight: isSelectedVideo(video) }"
+                     data-ng-click="selectVideo(video)"
+                     data-ng-src="{{ getVideoPath(video._id) }}" alt="{{video.title}}"/>
             </div>
         </div>
 
