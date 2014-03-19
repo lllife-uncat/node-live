@@ -1,7 +1,22 @@
+@font-face {
+    font-family: 'sf_wonder_comicregular';
+    src: url('/fonts/SF_Wonder_Comic-webfont.eot');
+    src: url('/fonts/SF_Wonder_Comic-webfont.eot?#iefix') format('embedded-opentype'),
+    url('/fonts/SF_Wonder_Comic-webfont.woff') format('woff'),
+    url('/fonts/SF_Wonder_Comic-webfont.ttf') format('truetype'),
+    url('/fonts/SF_Wonder_Comic-webfont.svg#sf_wonder_comicregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
 .live-content {
     max-width: 1000px;
     min-height: 750px;
     /*background-size: 150% auto ;*/
+    /*background-image: url("/images/diagonal_waves.png");*/
 }
 
 .live-header {
@@ -18,9 +33,11 @@
 .live-menu {
     /*background-repeat: no-repeat;*/
     /*background-image: url("/images/sos.png");*/
-    font-size: 80%;
+    /*font-size: 80%;*/
     color: green;
     margin: 0;
+
+    font-family: sf_wonder_comicregular;
 }
 
 .live-menu > nav > a {
@@ -38,13 +55,13 @@
 }
 
 .live-link {
+    color: #000000;
     text-decoration: none;
-    font-size: 90%;
+    font-family: sf_wonder_comicregular;
 }
 
 a.live-link:hover, a.live-link:visited, a.live-link:active {
     color: inherit;
-    font-size: 90%;
 }
 
 .live-branch {
@@ -61,13 +78,17 @@ a.live-link:hover, a.live-link:visited, a.live-link:active {
 .fields > .field > label, .field > label {
     font-size: 80%;
     font-weight: bolder;
-    font-family: "Helvetica Neue", Helvetica, Arial;
+    /*font-family: "Helvetica Neue", Helvetica, Arial;*/
+    font-family: sf_wonder_comicregular;
 }
 
 
 body {
-    /*background-image: url("/images/diagonal_waves.png");*/
+    /*background:*/
+        /*url("/images/crossword.png");*/
+
     background-image: url("/images/food.png");
+    /*//background-image: url("/images/diagonal_waves.png");*/
     /*background-color: #79a8c7;*/
     /*background-size: 100% auto;*/
     padding: 50px;
@@ -82,6 +103,7 @@ div > div.field > textarea.live-control {
 }
 
 table.ui > thead > tr > th {
+    font-family: sf_wonder_comicregular;
     font-size: 90%;
 }
 
@@ -89,10 +111,14 @@ table.ui > tbody > tr > td {
     font-size: 90%;
 }
 
+a.live-link {
+}
+
 div.ui.button, span.ui.button {
     background-image: url("/images/pw_pattern.png");
     /*text-transform: none;*/
     /*box-shadow: 1px 1px 5px 9dc1c9;*/
+    font-family: sf_wonder_comicregular;
 }
 
 div.ui.menu > a.item {
