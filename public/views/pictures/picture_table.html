@@ -3,7 +3,10 @@
     <tr>
         <th><i class="ui bolt icon"></i></th>
         <th>Title</th>
-        <th>Pictures</th>
+        <th>
+            <i class="ui circular inverted green photo icon"></i>
+            Pictures
+        </th>
         <th>Edit / Remove</th>
     </tr>
     </thead>
@@ -13,7 +16,9 @@
     <tr data-ng-repeat="gallery in galleries" class="animated">
         <td>{{$index+1}}</td>
         <td>{{gallery.title}}</td>
-        <td>{{gallery.$pictures.length}}</td>
+        <td>
+            <i class="ui photo icon" data-ng-repeat="id in gallery.objectIds"></i>
+        </td>
         <td>
             <div class="ui mini button" data-ng-click="editGallery(gallery)">
                 <i class="ui edit icon"></i>

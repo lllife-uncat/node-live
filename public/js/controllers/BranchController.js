@@ -27,6 +27,12 @@ app.controller("BranchController", function($scope, models, globalService) {
                 $scope.devices = data;
             }
         });
+
+        globalService.findAllByExample( { entity: "Playlists", publish: true }, function(success, data){
+           if(success && data) {
+               $scope.playlists = data;
+           }
+        });
     });
 
     $scope.currentBranch = new models.Branch();
@@ -34,6 +40,9 @@ app.controller("BranchController", function($scope, models, globalService) {
     $scope.branchs = [];
     $scope.devices = [];
     $scope.editMode = false;
+
+    $scope.playlists = [];
+
     $scope.toggleMode = function() {
         $scope.editMode = !$scope.editMode;
     };
@@ -46,6 +55,17 @@ app.controller("BranchController", function($scope, models, globalService) {
                $scope.branchs.splice(index,1);
            }
         });
+    };
+
+    $scope.getPlaylists = function(id){
+//        var id = device._id;
+        var playlist = _.filter($scope.playlists, function(pl){
+            return pl.deviceIds.indexOf(id) !== -1;
+        });
+
+        console.log(playlist);
+
+        return playlist;
     };
 
 
