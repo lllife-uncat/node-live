@@ -1,0 +1,47 @@
+<div class="ui grid">
+    <div class="six wide column">
+        <div class="ui segment">
+
+            <a href="" class="live-link" data-ng-click="newPlaylist()" >
+                <i class="add circular icon"></i> New Playlist
+            </a>
+
+            <div class="ui section divider" style="margin: 10px 0px"></div>
+
+            <div class="ui secondary vertical pointing menu" style="width: 100%">
+                <a class="item animated fadeIn" data-ng-repeat="pl in playlists"
+                   data-ng-class="{ 'active' : isSelectedPlaylist(pl) }"
+                   data-ng-click="selectPlaylist(pl)">
+                    <i class="align justify icon"
+                       data-ng-class="{ 'animated tada black': isSelectedPlaylist(pl), 'animated flash': !pl.publish }"></i>
+                    <span>
+                        <i class="ui"> {{$index + 1}}.</i>
+                        {{pl.title}}
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="ten wide column">
+
+        <div class="animated fadeIn live-branch">
+            <div class="animated fadeIn"
+                 data-ng-if="!editMode"
+                 data-ng-include  src=" '/views/playlists/playlist_detail.html' "
+                 style="margin-bottom: 10px">
+            </div>
+
+            <div class="animated fadeIn"
+                 data-ng-if="editMode"
+                 data-ng-include  src=" '/views/playlists/playlist_form.html' "
+                 style="margin-bottom: 10px">
+            </div>
+        </div>
+
+        <div class="animated fadeIn"
+             data-ng-include src=" '/views/playlists/playlist_table.html' ">
+        </div>
+
+    </div>
+</div>

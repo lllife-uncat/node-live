@@ -38,11 +38,26 @@ app.factory("models", function () {
         this.$videos = [];
     }
 
+    function GalleryDetail() {
+        this.type = "Videos";
+        this.objectId = "";
+    }
+
+    function Playlist() {
+        this.title = "";
+        this.deviceIds = [];
+        this.galleries = [];
+        this.$galleries = [];
+        this.entity = "Playlists";
+    }
+
     return {
         Branch: Branch,
         Device: Device,
         Picture: Picture,
         PictureGallery: PictureGallery,
-        VideoGallery: VideoGallery
+        VideoGallery: VideoGallery,
+        Playlist: Playlist,
+        GalleryDetail: GalleryDetail
     };
 });

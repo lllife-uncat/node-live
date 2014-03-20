@@ -16,7 +16,7 @@
         <td>{{branch.branchId}}</td>
         <td>{{branch.name}}</td>
         <td>
-            <i class="ui tablet icon"
+            <i class="ui desktop icon"
                data-ng-repeat="device in branch.deviceIds"
                 data-ng-class=" { 'animated tada red' : currentDevice._id == device}">
             </i>
@@ -27,7 +27,7 @@
             </div>
 
             <span class="ui tiny button" data-ng-click="removeBranch(branch)">
-                <i class="ui remove icon animated fadeIn"></i>
+                <i class="ui trash icon animated fadeIn"></i>
             </span>
         </td>
     </tr>

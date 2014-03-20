@@ -12,7 +12,7 @@
         <tbody>
         <tr data-ng-repeat="id in currentBranch.deviceIds">
             <td>
-                <i class="ui tablet icon"  data-ng-class=" { 'animated tada red': currentDevice._id == id}"> </i>
+                <i class="ui desktop icon"  data-ng-class=" { 'animated tada red': currentDevice._id == id}"> </i>
                 {{$index+1}}
             </td>
             <td> {{getDevice(id).deviceId}}</td>
@@ -23,7 +23,7 @@
                 </div>
 
                 <div class="ui mini button" data-ng-click="removeDevice(id)">
-                    <i class="ui remove icon"></i>
+                    <i class="ui trash icon"></i>
                 </div>
 
             </td>

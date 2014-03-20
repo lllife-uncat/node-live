@@ -1,0 +1,47 @@
+<div class="ui small modal live-video-modal">
+
+    <div class="ui raised segment" style="min-height: 300px;">
+        <div class="live-link">
+            Video Galleries
+            <i class="ui red circular label"> {{videos.length}} </i>
+        </div>
+        <table class="ui mini table segment">
+            <thead>
+            <tr>
+                <th><i class="ui bolt icon"></i></th>
+                <th>Title</th>
+                <th>Items</th>
+                <th></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr data-ng-repeat="gallery in videos" data-ng-click="">
+                <td>{{ $index + 1 }}</td>
+                <td>{{ gallery.title }}</td>
+                <td>
+                    <i class="ui big video icon" data-ng-repeat="id in gallery.objectIds"></i>
+                </td>
+                <td>
+                    <div class="ui mini button" data-ng-click="$selectVideoGallery(gallery)">
+                        <i class="ui checkmark sign icon"
+                           data-ng-class="{ 'animated tada red' : $isSelectedVideoGallery(gallery)}" > </i>
+                        Select
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+
+
+    </div>
+
+    <div style="margin:20px">
+        <div class="ui mini button" data-ng-click="$hideVideoDialog()">
+            <i class="ui checkmark icon"></i>
+            OK
+        </div>
+    </div>
+
+</div>

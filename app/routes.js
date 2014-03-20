@@ -61,7 +61,10 @@ module.exports = function(app) {
         entity.lastUpdate = new Date();
 
         Base.update(entity, function(success, data) {
-            if (!success) res.statusCode = 400;
+            if (!success) {
+              res.statusCode = 400;
+              console.log(data);
+            }
             res.json(data);
         });
     });

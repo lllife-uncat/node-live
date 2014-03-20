@@ -1,0 +1,42 @@
+<table class="ui mini table" data-ng-if="currentPlaylist.$galleries.length">
+    <thead data-ng-show="true">
+    <tr>
+        <th><i class="ui bolt icon"></i></th>
+        <th>Title</th>
+        <th>Gallery Items</th>
+        <th> </th>
+    </tr>
+    </thead>
+
+    <tbody ui-sortable="sortableOptions" ng-model="currentPlaylist.$galleries">
+    <tr data-ng-repeat="gallery in currentPlaylist.$galleries">
+        <td>
+            <label for="">
+                {{$index + 1}}
+            </label>
+        </td>
+        <td>{{gallery.title}}</td>
+        <td data-ng-class="{ 'dragging': dragging }">
+            <i  class="ui big icon animated "
+                data-ng-class="{ photo: gallery.entity == 'PictureGalleries', video: gallery.entity == 'VideoGalleries' }"
+                data-ng-repeat="id in gallery.objectIds">
+
+            </i>
+        </td>
+        <td>
+            <div class="ui mini button" data-ng-if="!dragging" data-ng-click="removeGallery(gallery)">
+                <i class="ui trash icon"> </i>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr data-ng-if="false">
+        <td>
+            <i class="ui mini circular up icon"></i>
+            <i class="ui mini circular down icon"></i>
+        </td>
+        <td></td>
+    </tr>
+    </tfoot>
+</table>

@@ -1,0 +1,51 @@
+<div>
+    <table class="ui mini table segment">
+        <thead>
+        <tr>
+            <th><i class="ui bolt icon"></i></th>
+            <th>
+                <i class="ui inverted black circular sitemap icon"></i>
+                Branch
+            </th>
+            <th>
+                <i class="ui inverted green circular desktop icon"></i>
+                Devices
+            </th>
+        </tr>
+
+        </thead>
+
+        <tbody>
+        <tr data-ng-repeat="branch in branchs">
+            <td>{{$index+1}}</td>
+            <td>
+                <div class="ui mini button" data-ng-click="selectBranch(branch)">
+                    <span style="white-space: nowrap;">
+                        <i class="ui checkmark icon"
+                           data-ng-class="{ 'animated tada': isSelectedBranch(branch) }"
+                           data-ng-if="isSelectedBranch(branch)"> </i>
+                        {{branch.name}}
+                    </span>
+                </div>
+            </td>
+            <td>
+                <div class="ui mini button "
+                     data-ng-repeat="device in branch.$devices"
+                     data-ng-click="selectDevice(device)"
+                     style="margin: 2px">
+
+                        <span style="white-space: nowrap;color: black">
+                        <i class="ui checkmark icon"
+                           data-ng-class="{ 'animated tada': isSelectedDevice(device) }"
+                           data-ng-if="isSelectedDevice(device)" > </i>
+                            {{device.deviceId}}
+                        </span>
+                </div>
+            </td>
+        </tr>
+
+        </tbody>
+
+
+    </table>
+</div>

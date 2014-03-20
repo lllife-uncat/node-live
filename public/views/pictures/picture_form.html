@@ -18,14 +18,14 @@
     </div>
 
     <div class="ui">
-        <div class="fileUpload ui mini button">
+        <div class="fileUpload ui mini orange button">
             <i class="ui upload icon"></i>
             <span>Upload Picture</span>
             <input type="file" accept="image/*"
                    class="upload" multiple data-ng-file-select="onFileSelect($files)"/>
         </div>
 
-        <div class="ui mini button"
+        <div class="ui mini orange button"
              data-ng-if="currentPicture._id"
              data-ng-click="removePicture(currentPicture)">
             <i class="ui remove icon"></i>
@@ -45,11 +45,11 @@
     </div>
 
     <div style="margin-top: 20px">
-        <div class="ui mini button" data-ng-click="saveGallery(currentGallery)">
+        <div class="ui mini green button" data-ng-click="saveGallery(currentGallery)">
             <i class="ui save icon"></i> Save
         </div>
 
-        <div class="ui mini button" data-ng-click="toggleMode()">
+        <div class="ui mini green button" data-ng-click="toggleMode()">
             <i class="ui close icon"></i> Close
         </div>
     </div>

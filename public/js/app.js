@@ -1,4 +1,4 @@
-var app = angular.module("liveApplication", [ "ngRoute", "angularFileUpload" ]);
+var app = angular.module("liveApplication", [ "ngRoute", "angularFileUpload", "ui.sortable" ]);
 
 app.config(function($routeProvider){
     $routeProvider.when('/', {
@@ -29,6 +29,11 @@ app.config(function($routeProvider){
     $routeProvider.when("/picture", {
         templateUrl : "views/picture.html",
         controller: "PictureController"
+    });
+
+    $routeProvider.when("/playlist", {
+        templateUrl: "views/playlist.html",
+        controller: "PlaylistController"
     });
 
     $routeProvider.otherwise({ redirect: "/"});

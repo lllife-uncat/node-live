@@ -16,6 +16,7 @@
                     <i class="photo icon"
                        data-ng-class="{ 'animated tada black': isSelected(gallery), 'animated flash': !gallery.publish }"></i>
                     <span>
+                        <i>{{$index+1}}.</i>
                         {{gallery.title}}
                         <!--<i class="ui red circular label"> {{branch.deviceIds.length}}</i>-->
                     </span>

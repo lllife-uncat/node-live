@@ -1,0 +1,51 @@
+
+<div data-ng-include src=" '/views/dialogs/picture_dialog.html' ">  </div>
+<div data-ng-include src=" '/views/dialogs/video_dialog.html' ">  </div>
+
+<div class="ui segment">
+
+    <div class="ui form">
+        <div class="ui two fields">
+            <div class="ui field">
+                <label for="">Title</label>
+                <input type="text" data-ng-model="currentPlaylist.title"/>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div style="padding:10px 0">
+           <div class="ui orange mini button" data-ng-click="showVideoDialog()">
+               <i class="ui video icon"></i>
+               Add Videos
+           </div>
+
+            <div class="ui orange mini button" data-ng-click="showPictureDialog()">
+                <i class="ui photo icon"> </i>
+                Add Pictures
+            </div>
+
+        </div>
+    </div>
+
+    <div style="padding:10px 0">
+        <div data-ng-include src=" '/views/playlists/gallery_table.html' "></div>
+    </div>
+
+    <div style="margin-top: 20px">
+        <div class="ui mini green button" data-ng-click="savePlaylist(currentPlaylist)">
+            <i class="ui save icon"></i>
+            Save
+        </div>
+
+        <div class="ui mini green button" data-ng-click="toggleMode()">
+            <i class="ui close icon"> </i>
+            Close
+        </div>
+    </div>
+
+</div>
+
+<div>
+    <div data-ng-include src=" '/views/playlists/branch_table.html' "></div>
+</div>

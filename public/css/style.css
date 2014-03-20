@@ -33,7 +33,7 @@
 .live-menu {
     /*background-repeat: no-repeat;*/
     /*background-image: url("/images/sos.png");*/
-    /*font-size: 80%;*/
+    font-size: 85%;
     color: green;
     margin: 0;
 
@@ -115,7 +115,7 @@ a.live-link {
 }
 
 div.ui.button, span.ui.button {
-    background-image: url("/images/pw_pattern.png");
+    /*background-image: url("/images/pw_pattern.png");*/
     /*text-transform: none;*/
     /*box-shadow: 1px 1px 5px 9dc1c9;*/
     font-family: sf_wonder_comicregular;
@@ -159,6 +159,7 @@ div.images > img {
 
 table.ui.table {
     background-image: url("/images/sos.png");
+    /*background-image: url("/images/img.jpg");*/
 }
 div.ui.segment {
     background-image: url("/images/crossword.png");
@@ -174,4 +175,8 @@ div.ui.segment.live-content {
 
 div.images > img.highlight {
     box-shadow: -1px -1px 10px red;
+}
+
+.dragging {
+    background-color: #7ab5d3;
 }

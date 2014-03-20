@@ -95,6 +95,7 @@ Base.create = function(entity) {
     else if (entity === "Pictures") output = new Picture();
     else if (entity === "PictureGalleries") output = new PictureGallery();
     else if (entity === "VideoGalleries") output = new VideoGallery();
+    else if (entity === "Playlists") output = new Playlist();
     return output;
 };
 
@@ -125,7 +126,8 @@ Base.allow = function(entity) {
         "Pictures",
         "Videos",
         "PictureGalleries",
-        "VideoGalleries"
+        "VideoGalleries",
+        "Playlists"
     ];
     if (allows.indexOf(entity) == -1) {
         return false;
@@ -235,8 +237,6 @@ function Branch() {
 function Device() {
     this.deviceId = "";
     this.serialNumber = "";
-    this.pictureGalleryIds = [];
-    this.videoGalleryIds = [];
 
     this.entity = "Devices";
     Base.apply(this, arguments);
@@ -272,6 +272,21 @@ function VideoGallery() {
     Object.preventExtensions(this);
 }
 
+function Playlist() {
+    this.title = "";
+    this.galleries = [];
+    this.deviceIds = [];
+    this.entity = "Playlists";
+
+    Base.apply(this, arguments);
+    Object.preventExtensions(this);
+}
+
+function GalleryDetail() {
+    this.title = "";
+    this.objectId = "";
+}
+
 // @property {Device}
 // @property {Picture}
 // @property {Video}
@@ -285,5 +300,7 @@ exports.models = {
     Video: Video,
     Branch: Branch,
     PictureGallery: PictureGallery,
-    VideoGallery: VideoGallery
+    VideoGallery: VideoGallery,
+    Playlist: Playlist,
+    GalleryDetail: GalleryDetail
 };
