@@ -1,40 +1,46 @@
-<table class="ui table segment">
-    <thead>
-    <tr>
-        <th><i class="ui bolt icon"></i></th>
-        <th>Title</th>
-        <th>
-            <i class="ui circular inverted green photo icon"></i>
-            Pictures
-        </th>
-        <th>Edit / Remove</th>
-    </tr>
-    </thead>
+<div>
+    <div style="padding-bottom: 10px">
+        <label for="">List of Picture Gallery</label>
+    </div>
 
-    <tbody>
+    <table class="ui table segment">
+        <thead>
+        <tr>
+            <th><i class="ui bolt icon"></i></th>
+            <th>Title</th>
+            <th>
+                <i class="ui circular inverted green photo icon"></i>
+                Pictures
+            </th>
+            <th>Edit / Remove</th>
+        </tr>
+        </thead>
 
-    <tr data-ng-repeat="gallery in galleries" class="animated">
-        <td>
+        <tbody>
+
+        <tr data-ng-repeat="gallery in galleries" class="animated">
+            <td>
             <span class="live-index">
                 {{$index+1}}.
             </span>
-        </td>
-        <td>{{gallery.title}}</td>
-        <td>
-            <i class="ui photo icon" data-ng-repeat="id in gallery.objectIds"></i>
-        </td>
-        <td>
-            <div class="ui mini button" data-ng-click="editGallery(gallery)">
-                <i class="ui edit icon"></i>
-            </div>
+            </td>
+            <td>{{gallery.title}}</td>
+            <td>
+                <i class="ui photo icon" data-ng-repeat="id in gallery.objectIds"></i>
+            </td>
+            <td>
+                <div class="ui mini button" data-ng-click="editGallery(gallery)">
+                    <i class="ui edit icon"></i>
+                </div>
 
-            <div class="ui mini button"
-                 data-ng-class="{ 'animated flash': !gallery.publish }"
-                 data-ng-click="removeGallery(gallery)">
-                <i class="ui trash icon"></i>
-            </div>
-        </td>
-    </tr>
+                <div class="ui mini button"
+                     data-ng-class="{ 'animated flash': !gallery.publish }"
+                     data-ng-click="removeGallery(gallery)">
+                    <i class="ui trash icon"></i>
+                </div>
+            </td>
+        </tr>
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>

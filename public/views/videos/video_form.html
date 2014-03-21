@@ -38,18 +38,20 @@
             Remove
         </div>
 
-        <div class="ui basic segment" data-ng-if="currentGallery.$videos.length != 30" style="min-height: 50px">
+        <div class="ui basic" data-ng-if="currentGallery.$videos.length != 30" style="min-height: 50px; padding: 20px 0">
             <div class=""  ui-sortable="sortableOptions" ng-model="currentGallery.$videos">
                 <div data-ng-repeat="video in currentGallery.$videos"
-                     class="ui mini button animated fadeIn"
-                     data-ng-class="{ highlight: isSelectedVideo(video) }"
+                     class="ui mini animated fadeIn"
+                     data-ng-class="{ 'green' : isSelectedVideo(video) }"
                      data-ng-click="selectVideo(video)"
-                     style="margin: 10px"
+                     style="margin: 3px; cursor: pointer"
                      data-ng-src="{{ getVideoPath(video._id) }}" alt="{{video.title}}">
 
                     <span style="white-space: nowrap">
-                        <i class="ui inverted circular video icon">  </i>
-                        {{video.title}}
+                        <i data-ng-class="{ 'green animated tada' : isSelectedVideo(video) }"
+                           class="ui circular inverted video icon">  </i>
+                        <i>{{$index+1}}. </i>
+                        {{video.title}} ({{video.contentType}})
                     </span>
                  </div>
             </div>

@@ -32,10 +32,14 @@
                  style="margin-bottom: 10px">
             </div>
 
-            <div class="animated fadeIn"
-                 data-ng-if="editMode"
-                 data-ng-include  src=" '/views/playlists/playlist_form.html' "
-                 style="margin-bottom: 10px">
+            <div data-ng-if="editMode" >
+                <div>
+                    <label for="">Create/Update Playlist</label>
+                </div>
+                <div class="animated fadeIn"
+                     data-ng-include  src=" '/views/playlists/playlist_form.html' "
+                     style="margin-bottom: 10px">
+                </div>
             </div>
         </div>
 

@@ -14,7 +14,7 @@
 
 .live-content {
     max-width: 1000px;
-    min-height: 750px;
+    min-height: 850px;
     /*background-size: 150% auto ;*/
     /*background-image: url("/images/diagonal_waves.png");*/
 }
@@ -27,8 +27,22 @@
 }
 
 .live-foot {
-    height: 120px;
+    height: 30px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
+
+.live-foot > div{
+    text-align: center;
+}
+
+div.live-foot > div > label {
+    font-size: 85%;
+    color: gray;
+    text-transform: none;
+}
+
 
 .live-menu {
     /*background-repeat: no-repeat;*/
@@ -52,6 +66,7 @@
 .live-view {
     padding-top: 10px;
     max-width: 950px;
+    padding-left: 20px;
 }
 
 .live-link {
@@ -123,7 +138,8 @@ div.ui.button, span.ui.button {
     /*background-image: url("/images/pw_pattern.png");*/
     /*text-transform: none;*/
     /*box-shadow: 1px 1px 5px 9dc1c9;*/
-    font-family: sf_wonder_comicregular;
+    /*font-family: sf_wonder_comicregular;*/
+    font-size: 90%;
 }
 
 label{

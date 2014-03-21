@@ -1,62 +1,67 @@
-<div class="ui segment">
-    <div class="ui form ">
+<div>
+    <div>
+        <label for="">Create/Update Picture Gallery</label>
+    </div>
+    <div class="ui segment">
+        <div class="ui form ">
 
-        <div class="ui fields">
-            <div class="ui field">
-                <label for="">Title</label>
-                <input type="text" data-ng-model="currentGallery.title"/>
+            <div class="ui fields">
+                <div class="ui field">
+                    <label for="">Title</label>
+                    <input type="text" data-ng-model="currentGallery.title"/>
+                </div>
+            </div>
+
+            <div class="ui">
+                <div class="ui field">
+                    <label for="">Description</label>
+                    <textarea class="live-control"
+                              data-ng-model="currentGallery.description" name="" id="" cols="30" rows="10"></textarea>
+                </div>
             </div>
         </div>
 
         <div class="ui">
-            <div class="ui field">
-                <label for="">Description</label>
-                <textarea class="live-control"
-                          data-ng-model="currentGallery.description" name="" id="" cols="30" rows="10"></textarea>
+
+            <div style="padding: 10px 0">
+                <label for="">Pictures</label>
+            </div>
+
+            <div class="fileUpload ui mini orange button">
+                <i class="ui upload icon"></i>
+                <span>Upload Picture</span>
+                <input type="file" accept="image/*"
+                       class="upload" multiple data-ng-file-select="onFileSelect($files)"/>
+            </div>
+
+            <div class="ui mini orange button"
+                 data-ng-if="currentPicture._id"
+                 data-ng-click="removePicture(currentPicture)">
+                <i class="ui remove icon"></i>
+                Remove
+            </div>
+
+            <div class="ui basic segment" data-ng-if="currentGallery.$pictures.length != 30" style="min-height: 70px">
+                <div class="ui rounded small images" ui-sortable="sortableOptions" ng-model="currentGallery.$pictures">
+                    <img data-ng-repeat="picture in currentGallery.$pictures"
+                         class="animated fadeIn"
+                         data-ng-class="{ highlight: isSelectedPicture(picture), 'animated fadeOutDown': !picture.publish }"
+                         data-ng-click="selectPicture(picture)"
+                         data-ng-src="{{ getPicturePath(picture._id) }}" alt="{{picture.originalName}}"/>
+                </div>
+            </div>
+
+        </div>
+
+        <div style="margin-top: 20px">
+            <div class="ui mini green button" data-ng-click="saveGallery(currentGallery)">
+                <i class="ui save icon"></i> Save
+            </div>
+
+            <div class="ui mini green button" data-ng-click="toggleMode()">
+                <i class="ui close icon"></i> Close
             </div>
         </div>
-    </div>
-
-    <div class="ui">
-
-        <div style="padding: 10px 0">
-            <label for="">Pictures</label>
-        </div>
-
-        <div class="fileUpload ui mini orange button">
-            <i class="ui upload icon"></i>
-            <span>Upload Picture</span>
-            <input type="file" accept="image/*"
-                   class="upload" multiple data-ng-file-select="onFileSelect($files)"/>
-        </div>
-
-        <div class="ui mini orange button"
-             data-ng-if="currentPicture._id"
-             data-ng-click="removePicture(currentPicture)">
-            <i class="ui remove icon"></i>
-            Remove
-        </div>
-
-        <div class="ui basic segment" data-ng-if="currentGallery.$pictures.length != 30" style="min-height: 70px">
-            <div class="ui rounded small images"  ui-sortable="sortableOptions" ng-model="currentGallery.$pictures">
-                <img data-ng-repeat="picture in currentGallery.$pictures"
-                     class="animated fadeIn"
-                     data-ng-class="{ highlight: isSelectedPicture(picture), 'animated fadeOutDown': !picture.publish }"
-                     data-ng-click="selectPicture(picture)"
-                     data-ng-src="{{ getPicturePath(picture._id) }}" alt="{{picture.originalName}}"/>
-            </div>
-        </div>
 
     </div>
-
-    <div style="margin-top: 20px">
-        <div class="ui mini green button" data-ng-click="saveGallery(currentGallery)">
-            <i class="ui save icon"></i> Save
-        </div>
-
-        <div class="ui mini green button" data-ng-click="toggleMode()">
-            <i class="ui close icon"></i> Close
-        </div>
-    </div>
-
 </div>
