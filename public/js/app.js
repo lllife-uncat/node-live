@@ -1,4 +1,8 @@
-var app = angular.module("liveApplication", [ "ngRoute", "angularFileUpload", "ui.sortable" ]);
+var app = angular.module("liveApplication", [
+    "ngRoute",
+    "angularFileUpload",
+    "com.2fdevs.videogular",
+    "ui.sortable"]);
 
 app.config(function($routeProvider){
     $routeProvider.when('/', {
@@ -38,4 +42,13 @@ app.config(function($routeProvider){
 
     $routeProvider.otherwise({ redirect: "/"});
 });
+
+/*
+app.run(function($location, $routeScope){
+    $routeScope.$on("$routeChangeSuccess", function(event, current, previous){
+        $rootScope.title = previous;
+        console.log(current);
+    });
+});
+*/
 

@@ -18,6 +18,11 @@
     </div>
 
     <div class="ui">
+
+        <div style="padding: 10px 0">
+            <label for="">Pictures</label>
+        </div>
+
         <div class="fileUpload ui mini orange button">
             <i class="ui upload icon"></i>
             <span>Upload Picture</span>
@@ -33,9 +38,9 @@
         </div>
 
         <div class="ui basic segment" data-ng-if="currentGallery.$pictures.length != 30" style="min-height: 70px">
-            <div class="ui rounded small images">
+            <div class="ui rounded small images"  ui-sortable="sortableOptions" ng-model="currentGallery.$pictures">
                 <img data-ng-repeat="picture in currentGallery.$pictures"
-                     class="animated fadeInDown"
+                     class="animated fadeIn"
                      data-ng-class="{ highlight: isSelectedPicture(picture), 'animated fadeOutDown': !picture.publish }"
                      data-ng-click="selectPicture(picture)"
                      data-ng-src="{{ getPicturePath(picture._id) }}" alt="{{picture.originalName}}"/>

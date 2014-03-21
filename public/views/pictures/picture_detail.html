@@ -1,5 +1,15 @@
-<div style="padding-bottom: 20px">
-    <div class="ui rounded small images">
-        <img  class="animated fadeIn"  data-ng-repeat="picture in currentGallery.$pictures"  data-ng-src="{{getPicturePath(picture._id)}}" alt=""/>
+<div>
+    <div style="padding-bottom: 10px">
+        <label for="">
+            {{currentGallery.title}}
+            <i class="ui square red label">{{currentGallery.$pictures.length}}</i>
+        </label>
+    </div>
+
+    <div class="ui segment">
+        <div class="ui rounded small images">
+            <img class="animated fadeIn" data-ng-repeat="picture in currentGallery.$pictures"
+                 data-ng-src="{{getPicturePath(picture._id)}}" alt=""/>
+        </div>
     </div>
 </div>

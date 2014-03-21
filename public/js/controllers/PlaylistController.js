@@ -1,14 +1,21 @@
-app.controller("PlaylistController", function ($scope, models, globalService, $timeout, uiService) {
+app.controller("PlaylistController", function ($scope, $rootScope, models, globalService, $timeout, uiService) {
+
+    $rootScope.title = "Live Playlist";
 
     function updateReference(pl) {
+
         pl.$galleries = [];
         pl.galleries.forEach(function (g) {
             var type = g.type;
             var objectId = g.objectId;
             globalService.findById(objectId, type, function (success, data) {
-                if (success) pl.$galleries.push(data);
+                if (success)  {
+                    $scope.updatePlayingType(data, pl);
+                    pl.$galleries.push(data);
+                }
             });
         });
+
     }
 
     angular.element(document).ready(function () {
@@ -56,7 +63,7 @@ app.controller("PlaylistController", function ($scope, models, globalService, $t
 
     $scope.playlists = [];
     $scope.currentPlaylist = new models.Playlist();
-    $scope.editMode = true;
+    $scope.editMode = false;
     $scope.pictures = [];
     $scope.videos = [];
     $scope.dragging = false;
@@ -66,6 +73,48 @@ app.controller("PlaylistController", function ($scope, models, globalService, $t
     // Picture and video dialog
     $scope.$selectedPictureGalleries = [];
     $scope.$selectedVideoGalleries = [];
+
+    $scope.editPlaylist = function(pl){
+        $scope.editMode = true;
+        $scope.currentPlaylist = pl;
+    };
+
+    $scope.removePlaylist = function(pl){
+        pl.publish = false;
+        globalService.update(pl, function(success, data){
+            if(success) {
+                var index = $scope.playlists.indexOf(pl);
+                $scope.playlists.splice(index, 1);
+            }else {
+                console.error(data);
+            }
+        });
+    };
+
+    $scope.updatePlayingType = function(gallery, pl){
+
+        var detail = _.find(pl.galleries, function(e){
+           return e.objectId === gallery._id;
+        });
+
+        if(detail) {
+            gallery.$playing = detail.playing;
+        }else {
+            gallery.$playing = new models.PlayingType().sequence;
+        }
+    };
+
+    $scope.changePlayingType = function(gallery){
+        var pt = new models.PlayingType();
+        var sequence = pt.sequence;
+        var random = pt.random;
+
+        if(gallery.$playing === sequence) {
+            gallery.$playing = random;
+        }else {
+            gallery.$playing = sequence;
+        }
+    };
 
     $scope.selectBranch = function (branch) {
         var pl = $scope.currentPlaylist;
@@ -190,6 +239,8 @@ app.controller("PlaylistController", function ($scope, models, globalService, $t
         $scope.pictureDialog.close();
         $scope.$selectedPictureGalleries.forEach(function (g) {
             var newRef = angular.copy(g);
+
+            newRef.$playing = new models.PlayingType().sequence;
             $scope.currentPlaylist.$galleries.push(newRef);
         });
     };
@@ -198,6 +249,8 @@ app.controller("PlaylistController", function ($scope, models, globalService, $t
         $scope.videoDialog.close();
         $scope.$selectedVideoGalleries.forEach(function (g) {
             var newRef = angular.copy(g);
+
+            newRef.$playing = new models.PlayingType().sequence;
             $scope.currentPlaylist.$galleries.push(newRef);
         });
     };
@@ -227,6 +280,7 @@ app.controller("PlaylistController", function ($scope, models, globalService, $t
             var detail = new models.GalleryDetail();
             detail.type = p.entity;
             detail.objectId = p._id;
+            detail.playing = p.$playing;
             pl.galleries.push(detail);
         });
 

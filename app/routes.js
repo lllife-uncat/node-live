@@ -62,10 +62,27 @@ module.exports = function(app) {
 
         Base.update(entity, function(success, data) {
             if (!success) {
-              res.statusCode = 400;
-              console.log(data);
+                res.statusCode = 400;
+                console.log(data);
             }
             res.json(data);
+        });
+    });
+
+    app.get("/api/video/:id", function(req, res) {
+        var _id = req.params.id;
+        Base.findById(_id, "Videos", function(success, data) {
+            if (!success) {
+              res.statusCode = 400;
+              res.json(data);
+            }else {
+              var videoPath = path.join(configs.uploadPath, data.path);
+              var video = fs.readFileSync(videoPath);
+              res.writeHead(200, {
+                "Content-Type": data.contentType
+              });
+              res.end(video, "binary");
+            }
         });
     });
 

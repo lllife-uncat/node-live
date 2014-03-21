@@ -1,4 +1,6 @@
-app.controller("BranchController", function($scope, models, globalService) {
+app.controller("BranchController", function($scope, $rootScope, models, globalService) {
+
+    $rootScope.title = "Live Branch";
 
     function updateCallback(success, data) {
         if(success) {

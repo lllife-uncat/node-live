@@ -4,7 +4,10 @@
         <th><i class="ui bolt icon"></i></th>
         <th>Title</th>
         <th>Gallery Items</th>
-        <th> </th>
+        <th>
+            <!--<i class="ui play icon"></i>-->
+        </th>
+        <th></th>
     </tr>
     </thead>
 
@@ -12,17 +15,36 @@
     <tr data-ng-repeat="gallery in currentPlaylist.$galleries">
         <td>
             <label for="">
-                {{$index + 1}}
+                <span class="live-index">
+                    {{$index + 1}}.
+                </span>
             </label>
         </td>
-        <td>{{gallery.title}}</td>
+        <td>
+            <span style="white-space: nowrap">
+                {{gallery.title}}
+            </span>
+        </td>
         <td data-ng-class="{ 'dragging': dragging }">
-            <i  class="ui big icon animated "
+            <i  class="ui large icon animated "
                 data-ng-class="{ photo: gallery.entity == 'PictureGalleries', video: gallery.entity == 'VideoGalleries' }"
                 data-ng-repeat="id in gallery.objectIds">
 
             </i>
         </td>
+
+
+        <td>
+            <div class="ui mini button"
+                 data-ng-class="{ blue: gallery.$playing === 'Random' }"
+                 data-ng-click="changePlayingType(gallery)">
+                <span style="white-space: nowrap">
+                    <i class="ui play icon"></i>
+                    {{gallery.$playing}}
+                </span>
+            </div>
+        </td>
+
         <td>
             <div class="ui mini button" data-ng-if="!dragging" data-ng-click="removeGallery(gallery)">
                 <i class="ui trash icon"> </i>

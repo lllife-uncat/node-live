@@ -14,7 +14,11 @@
     <tbody>
 
     <tr data-ng-repeat="gallery in galleries" class="animated">
-        <td>{{$index+1}}</td>
+        <td>
+            <span class="live-index">
+                {{$index+1}}.
+            </span>
+        </td>
         <td>{{gallery.title}}</td>
         <td>
             <i class="ui photo icon" data-ng-repeat="id in gallery.objectIds"></i>

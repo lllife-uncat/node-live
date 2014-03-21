@@ -4,7 +4,7 @@
 
         <div class="ui segment">
 
-            <a href="" class="live-link" data-ng-click="addGallery()" >
+            <a href="" class="live-link" data-ng-click="newGallery()" >
                 <i class="add circular icon"></i>
                 New Gallery
             </a>
@@ -32,7 +32,13 @@
             <div class="animated fadeIn" ng-if="editMode" data-ng-include src=" '/views/videos/video_form.html' " style="margin-bottom: 10px"> </div>
         </div>
 
-        <div class="animated fadeIn" data-ng-include src=" '/views/videos/video_table.html' ">
+        <div  data-ng-if="editMode">
+            <div style="padding: 10px 0">
+                <label for="">List of Video Galleries</label>
+            </div>
+            <div class="animated fadeIn"
+                 data-ng-include src=" '/views/videos/video_table.html' ">
+            </div>
         </div>
     </div>
 </div>

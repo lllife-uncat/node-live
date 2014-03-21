@@ -1,4 +1,6 @@
-app.controller("PictureController", function ($scope, globalService, models, $upload, $timeout) {
+app.controller("PictureController", function ($scope, $rootScope, globalService, models, $upload, $timeout) {
+
+    $rootScope.title = "Live Picture";
 
     angular.element(document).ready(function () {
         // Get all gallery
@@ -34,6 +36,26 @@ app.controller("PictureController", function ($scope, globalService, models, $up
     $scope.currentGallery = new models.PictureGallery();
     $scope.currentPicture = new models.Picture();
     $scope.editMode = false;
+
+    $scope.sortableOptions = {
+        update: function (e, ui) {
+            console.log("[Update]");
+        },
+        start: function (e, ui) {
+            console.log("[Start]");
+            $scope.dragging = true;
+
+            $scope.$apply();
+        },
+        stop: function (e, ui) {
+            console.log("[Stop]");
+
+            $timeout(function() {
+                $scope.dragging = false;
+                $scope.$apply();
+            }, 500);
+        }
+    };
 
     $scope.addGallery = function () {
         $scope.editMode = true;

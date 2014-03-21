@@ -285,6 +285,9 @@ function Playlist() {
 function GalleryDetail() {
     this.title = "";
     this.objectId = "";
+
+    // Sequence / Random
+    this.playing = "Sequence";
 }
 
 // @property {Device}

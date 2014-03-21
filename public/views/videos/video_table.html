@@ -3,7 +3,12 @@
     <tr>
         <th><i class="ui bolt icon"></i></th>
         <th>Title</th>
-        <th>Videos</th>
+        <th>
+            <span>
+                <i class="ui green inverted circular video icon"></i>
+                Videos
+            </span>
+        </th>
         <th>Edit / Remove</th>
     </tr>
     </thead>
@@ -11,9 +16,15 @@
     <tbody>
 
     <tr data-ng-repeat="gallery in galleries" class="animated">
-        <td>{{$index+1}}</td>
+        <td>
+            <span class="live-index">
+                {{$index+1}}.
+            </span>
+        </td>
         <td>{{gallery.title}}</td>
-        <td>{{gallery.$videos.length}}</td>
+        <td>
+            <i class="ui video icon" data-ng-repeat="deivce in gallery.objectIds"></i>
+        </td>
         <td>
             <div class="ui mini button" data-ng-click="editGallery(gallery)">
                 <i class="ui edit icon"></i>

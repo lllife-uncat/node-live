@@ -7,13 +7,14 @@
     <div class="ui form">
         <div class="ui two fields">
             <div class="ui field">
-                <label for="">Title</label>
+                <label for="">Playlist Title</label>
                 <input type="text" data-ng-model="currentPlaylist.title"/>
             </div>
         </div>
     </div>
 
     <div>
+        <label for=""> Videos & Pictures</label>
         <div style="padding:10px 0">
            <div class="ui orange mini button" data-ng-click="showVideoDialog()">
                <i class="ui video icon"></i>
@@ -32,6 +33,13 @@
         <div data-ng-include src=" '/views/playlists/gallery_table.html' "></div>
     </div>
 
+    <div>
+        <div style="padding: 10px 0px">
+            <label for="">Branchs / Devices</label>
+        </div>
+        <div data-ng-include src=" '/views/playlists/branch_table.html' "></div>
+    </div>
+
     <div style="margin-top: 20px">
         <div class="ui mini green button" data-ng-click="savePlaylist(currentPlaylist)">
             <i class="ui save icon"></i>
@@ -46,6 +54,3 @@
 
 </div>
 
-<div>
-    <div data-ng-include src=" '/views/playlists/branch_table.html' "></div>
-</div>

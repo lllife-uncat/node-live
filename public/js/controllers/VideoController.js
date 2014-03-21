@@ -1,4 +1,6 @@
-app.controller("VideoController", function ($scope, models, globalService, $timeout, $upload) {
+app.controller("VideoController", function ($scope, models, globalService, $timeout, $upload, $rootScope) {
+
+    $rootScope.title = "Live Video";
 
     function createReference(video) {
         video.$videos = [];
@@ -20,9 +22,12 @@ app.controller("VideoController", function ($scope, models, globalService, $time
                 });
             }
 
-            if ($scope.galleries.length > 0) {
-                $scope.currentGallery = $scope.galleries[0];
-            }
+            $timeout(function () {
+                if ($scope.galleries.length > 0) {
+                    var gall = $scope.galleries[0];
+                    $scope.selectGallery(gall);
+                }
+            }, 500);
         });
 
     });
@@ -32,11 +37,47 @@ app.controller("VideoController", function ($scope, models, globalService, $time
     $scope.currentVideo = null;
     $scope.editMode = false;
 
+    $scope.config = {
+        width: "100%",
+        height: "auto"
+    };
+
+    $scope.sortableOptions = {
+        update: function (e, ui) {
+            console.log("[Update]");
+        },
+        start: function (e, ui) {
+            console.log("[Start]");
+            $scope.dragging = true;
+
+            $scope.$apply();
+        },
+        stop: function (e, ui) {
+            console.log("[Stop]");
+
+            $timeout(function() {
+                $scope.dragging = false;
+                $scope.$apply();
+            }, 500);
+        }
+    };
+
+    $scope.playVideo = function (video) {
+        $scope.currentVideo = null;
+
+        $timeout(function () {
+            $scope.currentVideo = video;
+            $(".live-video").load();
+            $(".live-video").load();
+        }, 200);
+    };
+
     $scope.isSelectedVideo = function (video) {
         return $scope.currentVideo === video;
     };
 
     $scope.getVideoPath = function (video) {
+        if (!video) return "";
         return "/api/video/" + video._id;
     };
 
@@ -52,6 +93,9 @@ app.controller("VideoController", function ($scope, models, globalService, $time
 
     $scope.selectGallery = function (gallery) {
         $scope.currentGallery = gallery;
+        if (gallery.$videos.length > 0) {
+            $scope.playVideo(gallery.$videos[0]);
+        }
     };
 
     $scope.toggleMode = function () {
@@ -74,6 +118,11 @@ app.controller("VideoController", function ($scope, models, globalService, $time
                 }
             });
         }, 500);
+    };
+
+    $scope.newGallery = function () {
+        $scope.currentGallery = new models.VideoGallery();
+        $scope.editMode = true;
     };
 
     $scope.editGallery = function (gallery) {

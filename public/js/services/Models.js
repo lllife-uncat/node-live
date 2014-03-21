@@ -28,6 +28,7 @@ app.factory("models", function () {
         this.entity = "PictureGalleries";
         this.publish = true;
         this.$pictures = [];
+        this.$playing = new PlayingType().random;
     }
 
     function VideoGallery() {
@@ -36,11 +37,20 @@ app.factory("models", function () {
         this.objectIds = [];
         this.entity = "VideoGalleries";
         this.$videos = [];
+        this.$playing = new PlayingType().random;
+    }
+
+    function PlayingType() {
+        this.sequence = "Sequence";
+        this.random = "Random";
     }
 
     function GalleryDetail() {
         this.type = "Videos";
         this.objectId = "";
+
+        // Sequence / Random
+        this.playing = new PlayingType().sequence;
     }
 
     function Playlist() {
@@ -58,6 +68,7 @@ app.factory("models", function () {
         PictureGallery: PictureGallery,
         VideoGallery: VideoGallery,
         Playlist: Playlist,
-        GalleryDetail: GalleryDetail
+        GalleryDetail: GalleryDetail,
+        PlayingType: PlayingType
     };
 });

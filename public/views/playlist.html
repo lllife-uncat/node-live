@@ -39,8 +39,17 @@
             </div>
         </div>
 
-        <div class="animated fadeIn"
-             data-ng-include src=" '/views/playlists/playlist_table.html' ">
+
+        <div data-ng-if="!editMode" >
+
+            <div style="padding-bottom: 10px;">
+                <label>List of Playlists </label>
+            </div>
+
+            <div class="animated fadeIn"
+                 data-ng-include src=" '/views/playlists/playlist_table.html' ">
+            </div>
+
         </div>
 
     </div>

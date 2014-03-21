@@ -1,0 +1,41 @@
+<div>
+    <table class="ui mini table segment">
+        <thead>
+        <tr>
+            <th><i class="ui bolt icon"></i></th>
+            <th>Title</th>
+            <th>Galleries</th>
+            <th>Edit/Remove</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr data-ng-repeat="pl in playlists" class="animated fadeIn">
+            <td>
+                <span class="live-index">
+                    {{ $index+1 }}.
+                </span>
+            </td>
+            <td>{{ pl.title }}</td>
+
+            <td>
+                <i class="ui icon"
+                   data-ng-repeat="gallery in pl.$galleries"
+                   data-ng-class="{ video: gallery.entity === 'VideoGalleries', photo: gallery.entity === 'PictureGalleries' }"></i>
+            </td>
+
+            <td>
+                <div class="ui mini button" data-ng-click="editPlaylist(pl)">
+                    <i class="ui edit icon"></i>
+                </div>
+
+                <div class="ui mini button" data-ng-click="removePlaylist(pl)">
+                    <i class="ui trash icon"></i>
+                </div>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>

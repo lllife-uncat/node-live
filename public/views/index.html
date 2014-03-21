@@ -1,12 +1,16 @@
 <!doctype html>
 
-<thml lang="en">
+<!--<thml lang="en" >-->
+<html data-ng-app="liveApplication" data-ng-controller="MainController">
 
     <head>
         <meta charset="UTF-8">
 
+        <title data-ng-bind="title">Live</title>
+
         <script src="/vendors/jquery/jquery.js"></script>
         <script src="/vendors/jqueryui/jquery-ui.min.js"></script>
+
 
 
         <script src="/vendors/semantic/javascript/semantic.js"></script>
@@ -14,6 +18,10 @@
         <script src="/vendors/angular-route/angular-route.js"></script>
         <script src="/vendors/underscore/underscore.js"></script>
         <script src="/vendors/angular-file-upload/angular-file-upload.js"></script>
+
+        <script src="/vendors/videojs/video.js"></script>
+        <script src="/vendors/angular-sanitize/angular-sanitize.js"></script>
+        <script src="vendors/videogular/videogular.js"></script>
 
         <script src="/vendors/ui-sortable/sortable.js"></script>
 
@@ -28,10 +36,12 @@
         <link rel="stylesheet" href="/css/style.css"/>
         <link rel="stylesheet" href="/vendors/semantic/css/semantic.css"/>
         <link rel="stylesheet" href="/vendors/CreativeLinkEffects/css/component.css"/>
+        <link rel="stylesheet" href="/vendors/videojs/video-js.css"/>
 
     </head>
 
-    <body data-ng-app="liveApplication" data-ng-controller="MainController">
+    <!--<body data-ng-app="liveApplication" data-ng-controller="MainController">-->
+    <body data-ng-controller="MainController">
 
     <div class="ui raised segment live-content">
 
@@ -68,4 +78,4 @@
 
     </body>
 
-</thml>
+</html>

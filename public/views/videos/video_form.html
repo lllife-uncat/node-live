@@ -3,7 +3,7 @@
 
         <div class="ui fields">
             <div class="ui field">
-                <label for="">Title</label>
+                <label for="">Gallery Title</label>
                 <input type="text" data-ng-model="currentGallery.title"/>
             </div>
         </div>
@@ -15,9 +15,15 @@
                           data-ng-model="currentGallery.description" name="" id="" cols="30" rows="10"></textarea>
             </div>
         </div>
+
     </div>
 
     <div class="ui">
+
+        <div style="padding: 10px 0">
+            <label for="">Videos</label>
+        </div>
+
         <div class="fileUpload ui mini orange button">
             <i class="ui upload icon"></i>
             <span>Upload Video</span>
@@ -25,20 +31,27 @@
                    class="upload" multiple data-ng-file-select="onFileSelect($files)"/>
         </div>
 
-        <div class="ui mini orange button"
+        <div class="ui mini orange button animated fadeIn"
              data-ng-if="currentVideo._id"
              data-ng-click="removeVideo(currentVideo)">
             <i class="ui remove icon"></i>
             Remove
         </div>
 
-        <div class="ui basic segment" data-ng-if="currentGallery.$videos.length != 30" style="min-height: 70px">
-            <div class="ui rounded small images">
-                <img data-ng-repeat="video in currentGallery.$videos"
-                     class="animated fadeInDown"
+        <div class="ui basic segment" data-ng-if="currentGallery.$videos.length != 30" style="min-height: 50px">
+            <div class=""  ui-sortable="sortableOptions" ng-model="currentGallery.$videos">
+                <div data-ng-repeat="video in currentGallery.$videos"
+                     class="ui mini button animated fadeIn"
                      data-ng-class="{ highlight: isSelectedVideo(video) }"
                      data-ng-click="selectVideo(video)"
-                     data-ng-src="{{ getVideoPath(video._id) }}" alt="{{video.title}}"/>
+                     style="margin: 10px"
+                     data-ng-src="{{ getVideoPath(video._id) }}" alt="{{video.title}}">
+
+                    <span style="white-space: nowrap">
+                        <i class="ui inverted circular video icon">  </i>
+                        {{video.title}}
+                    </span>
+                 </div>
             </div>
         </div>
 

@@ -1,5 +1,53 @@
-<div style="padding-bottom: 20px">
-    <i class="ui big video icon animated fadeInDown" data-ng-repeat="picture in currentGallery.$videos">
+<div style="padding-bottom: 10px">
+    <label for="">
+        {{currentGallery.title}}
+        <!--<i class="ui square red label">{{currentGallery.$videos.length}}</i>-->
+    </label>
+</div>
 
-    </i>
+<div style="padding-bottom: 20px" class="ui segment">
+
+
+    <a href="" class="ui animated bounceIn live-link"
+       data-ng-repeat="video in currentGallery.$videos"
+       data-ng-class="{ 'animated tada' : isSelectedVideo(video) }"
+       data-ng-click="playVideo(video)">
+        <i data-ng-class="{ 'inverted green' : isSelectedVideo(video) }"
+           class="ui circular blue video icon"></i>
+    </a>
+
+    <div style="min-height: 420px" data-ng-if="!editMode">
+
+        <div style="padding: 10px 0" ng-if="currentVideo._id">
+            <video class="video-js vjs-default-skin live-video animated fadeIn "
+                   controls preload="auto" width="100%" height="100%"
+                   poster=""
+                   data-setup='{"example_option":true}'>
+                <source data-ng-src="{{ getVideoPath(currentVideo) }}" type='{{currentVideo.contentType}}'/>
+                <!--<source src="/api/video/532bde1891fda67022000003" type='{{currentVideo.contentType}}' />-->
+            </video>
+
+            <div for="" style="padding: 10px 0" class="animated fadeIn">
+                <label for="">File: {{currentVideo.title}}</label> <br/>
+                <label for="">Content Type: {{currentVideo.contentType}}</label><br/>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div data-ng-if="false" style="padding: 10px 0">
+        <videogular vg-width="config.width" vg-height="config.height" vg-theme="config.theme">
+            <video class='videoPlayer' controls preload='none'>
+                <source src="{{ getVideoPath(currentVideo) }}" type='{{currentVideo.contentType}}'/>
+            </video>
+        </videogular>
+
+        <div for="" style="padding: 10px 0">
+            <label for="">File: {{currentVideo.title}}</label><br/>
+            <label for="">Url: {{getVideoPath(currentVideo) }}</label><br/>
+            <label for="">Content Type: {{currentVideo.contentType}}</label><br/>
+        </div>
+    </div>
+
 </div>

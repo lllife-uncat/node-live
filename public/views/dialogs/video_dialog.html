@@ -17,24 +17,33 @@
 
             <tbody>
             <tr data-ng-repeat="gallery in videos" data-ng-click="">
-                <td>{{ $index + 1 }}</td>
-                <td>{{ gallery.title }}</td>
+                <td>
+                    <span class="live-index">
+                        {{ $index + 1 }}
+                    </span>
+                </td>
+
+                <td>
+                    <span style="white-space: nowrap">
+                        {{ gallery.title }}
+                    </span>
+                </td>
                 <td>
                     <i class="ui big video icon" data-ng-repeat="id in gallery.objectIds"></i>
                 </td>
                 <td>
                     <div class="ui mini button" data-ng-click="$selectVideoGallery(gallery)">
+                        <span style="white-space: nowrap">
                         <i class="ui checkmark sign icon"
                            data-ng-class="{ 'animated tada red' : $isSelectedVideoGallery(gallery)}" > </i>
                         Select
+                        </span>
                     </div>
                 </td>
             </tr>
             </tbody>
 
         </table>
-
-
     </div>
 
     <div style="margin:20px">

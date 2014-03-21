@@ -1,4 +1,8 @@
-var app = angular.module("liveApplication", [ "ngRoute", "angularFileUpload", "ui.sortable" ]);
+var app = angular.module("liveApplication", [
+    "ngRoute",
+    "angularFileUpload",
+    "com.2fdevs.videogular",
+    "ui.sortable"]);
 
 app.config(function($routeProvider){
     $routeProvider.when('/', {
@@ -38,6 +42,15 @@ app.config(function($routeProvider){
 
     $routeProvider.otherwise({ redirect: "/"});
 });
+
+/*
+app.run(function($location, $routeScope){
+    $routeScope.$on("$routeChangeSuccess", function(event, current, previous){
+        $rootScope.title = previous;
+        console.log(current);
+    });
+});
+*/
 
 
 
@@ -137,6 +150,7 @@ app.factory("models", function () {
         this.entity = "PictureGalleries";
         this.publish = true;
         this.$pictures = [];
+        this.$playing = new PlayingType().random;
     }
 
     function VideoGallery() {
@@ -145,11 +159,20 @@ app.factory("models", function () {
         this.objectIds = [];
         this.entity = "VideoGalleries";
         this.$videos = [];
+        this.$playing = new PlayingType().random;
+    }
+
+    function PlayingType() {
+        this.sequence = "Sequence";
+        this.random = "Random";
     }
 
     function GalleryDetail() {
         this.type = "Videos";
         this.objectId = "";
+
+        // Sequence / Random
+        this.playing = new PlayingType().sequence;
     }
 
     function Playlist() {
@@ -167,7 +190,8 @@ app.factory("models", function () {
         PictureGallery: PictureGallery,
         VideoGallery: VideoGallery,
         Playlist: Playlist,
-        GalleryDetail: GalleryDetail
+        GalleryDetail: GalleryDetail,
+        PlayingType: PlayingType
     };
 });
 app.factory("uiService", function () {
@@ -189,7 +213,9 @@ app.factory("uiService", function () {
         Dialog: Dialog
     };
 });
-app.controller("BranchController", function($scope, models, globalService) {
+app.controller("BranchController", function($scope, $rootScope, models, globalService) {
+
+    $rootScope.title = "Live Branch";
 
     function updateCallback(success, data) {
         if(success) {
@@ -321,7 +347,9 @@ app.controller("BranchController", function($scope, models, globalService) {
         return branch === $scope.currentBranch;
     };
 });
-app.controller("HomeController", function ($scope ) {
+app.controller("HomeController", function ($scope, $rootScope) {
+
+    $rootScope.title = "Live Home";
 
     angular.element(document).ready(function () {
 
@@ -332,7 +360,9 @@ app.controller("HomeController", function ($scope ) {
 app.controller("MainController", function($scope){
 
 });
-app.controller("PictureController", function ($scope, globalService, models, $upload, $timeout) {
+app.controller("PictureController", function ($scope, $rootScope, globalService, models, $upload, $timeout) {
+
+    $rootScope.title = "Live Picture";
 
     angular.element(document).ready(function () {
         // Get all gallery
@@ -368,6 +398,26 @@ app.controller("PictureController", function ($scope, globalService, models, $up
     $scope.currentGallery = new models.PictureGallery();
     $scope.currentPicture = new models.Picture();
     $scope.editMode = false;
+
+    $scope.sortableOptions = {
+        update: function (e, ui) {
+            console.log("[Update]");
+        },
+        start: function (e, ui) {
+            console.log("[Start]");
+            $scope.dragging = true;
+
+            $scope.$apply();
+        },
+        stop: function (e, ui) {
+            console.log("[Stop]");
+
+            $timeout(function() {
+                $scope.dragging = false;
+                $scope.$apply();
+            }, 500);
+        }
+    };
 
     $scope.addGallery = function () {
         $scope.editMode = true;
@@ -474,17 +524,24 @@ app.controller("PictureController", function ($scope, globalService, models, $up
         });
     };
 });
-app.controller("PlaylistController", function ($scope, models, globalService, $timeout, uiService) {
+app.controller("PlaylistController", function ($scope, $rootScope, models, globalService, $timeout, uiService) {
+
+    $rootScope.title = "Live Playlist";
 
     function updateReference(pl) {
+
         pl.$galleries = [];
         pl.galleries.forEach(function (g) {
             var type = g.type;
             var objectId = g.objectId;
             globalService.findById(objectId, type, function (success, data) {
-                if (success) pl.$galleries.push(data);
+                if (success)  {
+                    $scope.updatePlayingType(data, pl);
+                    pl.$galleries.push(data);
+                }
             });
         });
+
     }
 
     angular.element(document).ready(function () {
@@ -532,7 +589,7 @@ app.controller("PlaylistController", function ($scope, models, globalService, $t
 
     $scope.playlists = [];
     $scope.currentPlaylist = new models.Playlist();
-    $scope.editMode = true;
+    $scope.editMode = false;
     $scope.pictures = [];
     $scope.videos = [];
     $scope.dragging = false;
@@ -542,6 +599,48 @@ app.controller("PlaylistController", function ($scope, models, globalService, $t
     // Picture and video dialog
     $scope.$selectedPictureGalleries = [];
     $scope.$selectedVideoGalleries = [];
+
+    $scope.editPlaylist = function(pl){
+        $scope.editMode = true;
+        $scope.currentPlaylist = pl;
+    };
+
+    $scope.removePlaylist = function(pl){
+        pl.publish = false;
+        globalService.update(pl, function(success, data){
+            if(success) {
+                var index = $scope.playlists.indexOf(pl);
+                $scope.playlists.splice(index, 1);
+            }else {
+                console.error(data);
+            }
+        });
+    };
+
+    $scope.updatePlayingType = function(gallery, pl){
+
+        var detail = _.find(pl.galleries, function(e){
+           return e.objectId === gallery._id;
+        });
+
+        if(detail) {
+            gallery.$playing = detail.playing;
+        }else {
+            gallery.$playing = new models.PlayingType().sequence;
+        }
+    };
+
+    $scope.changePlayingType = function(gallery){
+        var pt = new models.PlayingType();
+        var sequence = pt.sequence;
+        var random = pt.random;
+
+        if(gallery.$playing === sequence) {
+            gallery.$playing = random;
+        }else {
+            gallery.$playing = sequence;
+        }
+    };
 
     $scope.selectBranch = function (branch) {
         var pl = $scope.currentPlaylist;
@@ -666,6 +765,8 @@ app.controller("PlaylistController", function ($scope, models, globalService, $t
         $scope.pictureDialog.close();
         $scope.$selectedPictureGalleries.forEach(function (g) {
             var newRef = angular.copy(g);
+
+            newRef.$playing = new models.PlayingType().sequence;
             $scope.currentPlaylist.$galleries.push(newRef);
         });
     };
@@ -674,6 +775,8 @@ app.controller("PlaylistController", function ($scope, models, globalService, $t
         $scope.videoDialog.close();
         $scope.$selectedVideoGalleries.forEach(function (g) {
             var newRef = angular.copy(g);
+
+            newRef.$playing = new models.PlayingType().sequence;
             $scope.currentPlaylist.$galleries.push(newRef);
         });
     };
@@ -703,6 +806,7 @@ app.controller("PlaylistController", function ($scope, models, globalService, $t
             var detail = new models.GalleryDetail();
             detail.type = p.entity;
             detail.objectId = p._id;
+            detail.playing = p.$playing;
             pl.galleries.push(detail);
         });
 
@@ -722,7 +826,9 @@ app.controller("PlaylistController", function ($scope, models, globalService, $t
 app.controller("UploadController", function($scope){
 
 });
-app.controller("VideoController", function ($scope, models, globalService, $timeout, $upload) {
+app.controller("VideoController", function ($scope, models, globalService, $timeout, $upload, $rootScope) {
+
+    $rootScope.title = "Live Video";
 
     function createReference(video) {
         video.$videos = [];
@@ -744,9 +850,12 @@ app.controller("VideoController", function ($scope, models, globalService, $time
                 });
             }
 
-            if ($scope.galleries.length > 0) {
-                $scope.currentGallery = $scope.galleries[0];
-            }
+            $timeout(function () {
+                if ($scope.galleries.length > 0) {
+                    var gall = $scope.galleries[0];
+                    $scope.selectGallery(gall);
+                }
+            }, 500);
         });
 
     });
@@ -756,11 +865,47 @@ app.controller("VideoController", function ($scope, models, globalService, $time
     $scope.currentVideo = null;
     $scope.editMode = false;
 
+    $scope.config = {
+        width: "100%",
+        height: "auto"
+    };
+
+    $scope.sortableOptions = {
+        update: function (e, ui) {
+            console.log("[Update]");
+        },
+        start: function (e, ui) {
+            console.log("[Start]");
+            $scope.dragging = true;
+
+            $scope.$apply();
+        },
+        stop: function (e, ui) {
+            console.log("[Stop]");
+
+            $timeout(function() {
+                $scope.dragging = false;
+                $scope.$apply();
+            }, 500);
+        }
+    };
+
+    $scope.playVideo = function (video) {
+        $scope.currentVideo = null;
+
+        $timeout(function () {
+            $scope.currentVideo = video;
+            $(".live-video").load();
+            $(".live-video").load();
+        }, 200);
+    };
+
     $scope.isSelectedVideo = function (video) {
         return $scope.currentVideo === video;
     };
 
     $scope.getVideoPath = function (video) {
+        if (!video) return "";
         return "/api/video/" + video._id;
     };
 
@@ -776,6 +921,9 @@ app.controller("VideoController", function ($scope, models, globalService, $time
 
     $scope.selectGallery = function (gallery) {
         $scope.currentGallery = gallery;
+        if (gallery.$videos.length > 0) {
+            $scope.playVideo(gallery.$videos[0]);
+        }
     };
 
     $scope.toggleMode = function () {
@@ -798,6 +946,11 @@ app.controller("VideoController", function ($scope, models, globalService, $time
                 }
             });
         }, 500);
+    };
+
+    $scope.newGallery = function () {
+        $scope.currentGallery = new models.VideoGallery();
+        $scope.editMode = true;
     };
 
     $scope.editGallery = function (gallery) {

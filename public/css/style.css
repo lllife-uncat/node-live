@@ -107,6 +107,11 @@ table.ui > thead > tr > th {
     font-size: 90%;
 }
 
+.live-index {
+    font-family: sf_wonder_comicregular;
+    font-size: 95%;
+}
+
 table.ui > tbody > tr > td {
     font-size: 90%;
 }
@@ -119,6 +124,12 @@ div.ui.button, span.ui.button {
     /*text-transform: none;*/
     /*box-shadow: 1px 1px 5px 9dc1c9;*/
     font-family: sf_wonder_comicregular;
+}
+
+label{
+    font-family: sf_wonder_comicregular;
+    font-weight: bolder;
+    color: #555555;
 }
 
 div.ui.menu > a.item {
@@ -134,7 +145,6 @@ div.list > a.item > div.horizontal.label {
 div.ui.list  a.item  {
     font-size: 95%;
 }
-
 
 .fileUpload {
     position: relative;
@@ -173,10 +183,22 @@ div.ui.segment.live-content {
     background-image: none;
 }
 
+
 div.images > img.highlight {
     box-shadow: -1px -1px 10px red;
+}
+
+a.highlight {
+    text-shadow: 1px 1px 5px gray;
+    font-weight: bolder;
 }
 
 .dragging {
     background-color: #7ab5d3;
 }
+
+table.ui.table > tbody > tr > td {
+    vertical-align:top;
+
+}
+

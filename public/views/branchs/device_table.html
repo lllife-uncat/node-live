@@ -13,7 +13,10 @@
         <tr data-ng-repeat="id in currentBranch.deviceIds">
             <td>
                 <i class="ui desktop icon"  data-ng-class=" { 'animated tada red': currentDevice._id == id}"> </i>
-                {{$index+1}}
+                <span class="live-index">
+                    {{$index+1}}.
+                 </span>
+
             </td>
             <td> {{getDevice(id).deviceId}}</td>
             <td>{{getDevice(id).serialNumber}}</td>

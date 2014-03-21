@@ -1,13 +1,7 @@
 <div class="ui segment animated" data-ng-class="{ fadeIn: editMode, fadeOut: !editMode }" ng-if="editMode">
     <div class="ui form ">
         <div class="ui two fields">
-            <div class="field">
-                <label for="">
-                    <!--<i class="ui photo icon animated fadeIn"></i>-->
-                    Branch ID
-                </label>
-                <input type="text" data-ng-model="currentBranch.branchId"/>
-            </div>
+
             <div class="field">
                 <label for="">
                     <!--<i class="ui photo icon animated fadeIn"></i>-->
@@ -16,6 +10,13 @@
                 <input type="text" data-ng-model="currentBranch.name"/>
             </div>
 
+            <div class="field">
+                <label for="">
+                    <!--<i class="ui photo icon animated fadeIn"></i>-->
+                    Branch ID
+                </label>
+                <input type="text" data-ng-model="currentBranch.branchId"/>
+            </div>
         </div>
 
         <div>
