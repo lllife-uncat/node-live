@@ -73,15 +73,21 @@ module.exports = function(app) {
         var _id = req.params.id;
         Base.findById(_id, "Videos", function(success, data) {
             if (!success) {
-              res.statusCode = 400;
-              res.json(data);
-            }else {
-              var videoPath = path.join(configs.uploadPath, data.path);
-              var video = fs.readFileSync(videoPath);
-              res.writeHead(200, {
-                "Content-Type": data.contentType
-              });
-              res.end(video, "binary");
+                res.statusCode = 400;
+                res.json(data);
+            } else {
+                var videoPath = path.join(configs.uploadPath, data.path);
+
+                try {
+                    var video = fs.readFileSync(videoPath);
+                    res.writeHead(200, {
+                        "Content-Type": data.contentType
+                    });
+                    res.end(video, "binary");
+                } catch (e) {
+                    res.statusCode = 400;
+                    res.json(e);
+                }
             }
         });
     });
@@ -124,9 +130,17 @@ module.exports = function(app) {
         appendBasicInfo(file, video);
 
         fs.readFile(file.path, function(err, data) {
-            fs.writeFile(fullPath, data, function(err) {
+            try {
+                fs.writeFile(fullPath, data, function(err) {
+                    console.log(err);
+                });
+            } catch (e) {
                 console.log(err);
-            });
+                res.status = 40;
+                res.json({
+                    message: "Read video failed"
+                });
+            }
         });
 
         video.save(function(success, data) {

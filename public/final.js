@@ -1,7 +1,7 @@
 var app = angular.module("liveApplication", [
     "ngRoute",
     "angularFileUpload",
-    "com.2fdevs.videogular",
+//    "com.2fdevs.videogular",
     "ui.sortable"]);
 
 app.config(function($routeProvider){
@@ -194,6 +194,36 @@ app.factory("models", function () {
         PlayingType: PlayingType
     };
 });
+app.factory("playerService", function ($timeout) {
+    function VideoPlayer() {
+
+        var bv = new $.BigVideo();
+        var play = false;
+
+        this.start = function () {
+            bv.init();
+//            bv.show("/images/bg1.jpg");
+            $timeout(function () {
+                bv.show("/videos/bird.mp4", { ambient: true });
+                bv.getPlayer().volume(0);
+                play = true;
+            }, 500);
+        };
+
+        this.stop = function () {
+            if (play) {
+                bv.getPlayer().pause();
+            } else {
+                bv.getPlayer().play();
+            }
+            play = !play;
+        };
+    }
+
+    return {
+        video: new VideoPlayer()
+    };
+});
 app.factory("uiService", function () {
 
     function Dialog(id) {
@@ -213,7 +243,7 @@ app.factory("uiService", function () {
         Dialog: Dialog
     };
 });
-app.controller("BranchController", function($scope, $rootScope, models, globalService) {
+app.controller("BranchController", function($scope, $rootScope, models, globalService, playerService) {
 
     $rootScope.title = "Live Branch";
 
@@ -347,17 +377,64 @@ app.controller("BranchController", function($scope, $rootScope, models, globalSe
         return branch === $scope.currentBranch;
     };
 });
-app.controller("HomeController", function ($scope, $rootScope) {
+app.controller("HomeController", function ($scope, $timeout, $rootScope, playerService, globalService) {
 
     $rootScope.title = "Live Home";
 
     angular.element(document).ready(function () {
 
+        globalService.findAllByExample({publish: true, entity: "Videos"}, function (success, data) {
+            if (success && data) {
+                $scope.videos = data;
+
+                if ($scope.videos.length > 0) {
+                    var video = $scope.videos[0];
+                    $scope.selectVideo(video);
+                }
+            }
+        });
+
     });
+
+    $scope.videos = [];
+    $scope.currentVideo = null;
+
+    $scope.selectVideo = function (video) {
+        $scope.currentVideo = video;
+        console.log(video);
+
+        $scope.playVideo(video);
+    };
+
+    $scope.isSelectedVideo = function (video) {
+        return $scope.currentVideo === video;
+    };
+
+    $scope.getVideoPath = function (video) {
+        if (!video) return "";
+        return "/api/video/" + video._id;
+    };
+
+    $scope.playVideo = function (video) {
+        $scope.currentVideo = null;
+
+        $timeout(function () {
+            $scope.currentVideo = video;
+            $(".live-video").load();
+        }, 200);
+    };
 });
 
 
-app.controller("MainController", function($scope){
+app.controller("MainController", function($scope, playerService, globalService){
+    $scope.stopVideo = function(){
+        playerService.video.stop();
+    };
+
+    angular.element(document).ready(function(){
+//        playerService.video.start();
+
+    });
 
 });
 app.controller("PictureController", function ($scope, $rootScope, globalService, models, $upload, $timeout) {
@@ -822,9 +899,6 @@ app.controller("PlaylistController", function ($scope, $rootScope, models, globa
             }
         });
     };
-});
-app.controller("UploadController", function($scope){
-
 });
 app.controller("VideoController", function ($scope, models, globalService, $timeout, $upload, $rootScope) {
 

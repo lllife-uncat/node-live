@@ -1,7 +1,7 @@
 var app = angular.module("liveApplication", [
     "ngRoute",
     "angularFileUpload",
-    "com.2fdevs.videogular",
+//    "com.2fdevs.videogular",
     "ui.sortable"]);
 
 app.config(function($routeProvider){

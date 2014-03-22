@@ -1,72 +1,79 @@
-<div class="ui segment">
-    <div class="ui form ">
+<div>
+    <div>
+        <label for="">Create / Edit Video Gallery</label>
+    </div>
+    <div class="ui segment">
+        <div class="ui form ">
 
-        <div class="ui fields">
-            <div class="ui field">
-                <label for="">Gallery Title</label>
-                <input type="text" data-ng-model="currentGallery.title"/>
+            <div class="ui fields">
+                <div class="ui field">
+                    <label for="">Gallery Title</label>
+                    <input type="text" data-ng-model="currentGallery.title"/>
+                </div>
             </div>
+
+            <div class="ui">
+                <div class="ui field">
+                    <label for="">Description</label>
+                    <textarea class="live-control"
+                              data-ng-model="currentGallery.description" name="" id="" cols="30" rows="10"></textarea>
+                </div>
+            </div>
+
         </div>
 
         <div class="ui">
-            <div class="ui field">
-                <label for="">Description</label>
-                <textarea class="live-control"
-                          data-ng-model="currentGallery.description" name="" id="" cols="30" rows="10"></textarea>
+
+            <div style="padding: 10px 0">
+                <label for="">Videos</label>
             </div>
-        </div>
 
-    </div>
+            <div class="fileUpload ui mini orange button">
+                <i class="ui upload icon"></i>
+                <span>Upload Video</span>
+                <input type="file" accept="video/*"
+                       class="upload" multiple data-ng-file-select="onFileSelect($files)"/>
+            </div>
 
-    <div class="ui">
+            <div class="ui mini orange button animated fadeIn"
+                 data-ng-if="currentVideo._id"
+                 data-ng-click="removeVideo(currentVideo)">
+                <i class="ui remove icon"></i>
+                Remove
+            </div>
 
-        <div style="padding: 10px 0">
-            <label for="">Videos</label>
-        </div>
-
-        <div class="fileUpload ui mini orange button">
-            <i class="ui upload icon"></i>
-            <span>Upload Video</span>
-            <input type="file" accept="video/*"
-                   class="upload" multiple data-ng-file-select="onFileSelect($files)"/>
-        </div>
-
-        <div class="ui mini orange button animated fadeIn"
-             data-ng-if="currentVideo._id"
-             data-ng-click="removeVideo(currentVideo)">
-            <i class="ui remove icon"></i>
-            Remove
-        </div>
-
-        <div class="ui basic" data-ng-if="currentGallery.$videos.length != 30" style="min-height: 50px; padding: 20px 0">
-            <div class=""  ui-sortable="sortableOptions" ng-model="currentGallery.$videos">
-                <div data-ng-repeat="video in currentGallery.$videos"
-                     class="ui mini animated fadeIn"
-                     data-ng-class="{ 'green' : isSelectedVideo(video) }"
-                     data-ng-click="selectVideo(video)"
-                     style="margin: 3px; cursor: pointer"
-                     data-ng-src="{{ getVideoPath(video._id) }}" alt="{{video.title}}">
+            <div class="ui basic" data-ng-if="currentGallery.$videos.length != 30"
+                 style="min-height: 50px; padding: 20px 0">
+                <div class="" ui-sortable="sortableOptions" ng-model="currentGallery.$videos">
+                    <div data-ng-repeat="video in currentGallery.$videos"
+                         class="ui mini animated fadeIn"
+                         data-ng-class="{ 'green' : isSelectedVideo(video) }"
+                         data-ng-click="selectVideo(video)"
+                         style="margin: 3px; cursor: pointer"
+                         data-ng-src="{{ getVideoPath(video._id) }}" alt="{{video.title}}">
 
                     <span style="white-space: nowrap">
                         <i data-ng-class="{ 'green animated tada' : isSelectedVideo(video) }"
-                           class="ui circular inverted video icon">  </i>
+                           class="ui circular inverted video icon"> </i>
                         <i>{{$index+1}}. </i>
                         {{video.title}} ({{video.contentType}})
                     </span>
-                 </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div style="margin-top: 20px">
+            <div class="ui mini green button" data-ng-click="saveGallery(currentGallery)">
+                <i class="ui save icon"></i> Save
+            </div>
+
+            <div class="ui mini green button" data-ng-click="toggleMode()">
+                <i class="ui close icon"></i> Close
             </div>
         </div>
 
-    </div>
-
-    <div style="margin-top: 20px">
-        <div class="ui mini green button" data-ng-click="saveGallery(currentGallery)">
-            <i class="ui save icon"></i> Save
-        </div>
-
-        <div class="ui mini green button" data-ng-click="toggleMode()">
-            <i class="ui close icon"></i> Close
-        </div>
     </div>
 
 </div>

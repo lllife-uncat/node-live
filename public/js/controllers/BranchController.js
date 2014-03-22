@@ -1,4 +1,4 @@
-app.controller("BranchController", function($scope, $rootScope, models, globalService) {
+app.controller("BranchController", function($scope, $rootScope, models, globalService, playerService) {
 
     $rootScope.title = "Live Branch";
 

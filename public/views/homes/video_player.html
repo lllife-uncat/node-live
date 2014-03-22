@@ -1,0 +1,21 @@
+<div style="padding: 20px 0">
+    <div data-ng-if="true">
+        <div style="padding: 10px 0" ng-if="currentVideo._id">
+
+            <div for="" style="padding-bottom: 10px" class="animated fadeIn" data-ng-if="false">
+                <label for="">File: {{currentVideo.title}}</label> <br/>
+                <!--<label for="">Content Type: {{currentVideo.contentType}}</label><br/>-->
+            </div>
+
+            <video class="video-js vjs-default-skin live-video animated fadeIn "
+                   controls preload="auto" width="100%" height="100%"
+                   poster=""
+                   data-setup='{"example_option":true}'>
+                <source data-ng-src="{{ getVideoPath(currentVideo) }}" type='{{currentVideo.contentType}}'/>
+            </video>
+
+        </div>
+    </div>
+
+    <div style="padding-bottom: 20px"></div>
+</div>

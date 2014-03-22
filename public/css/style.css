@@ -10,43 +10,48 @@
 
 }
 
+@font-face {
+    font-family: 'caviar_dreamsbold';
+    src: url('/fonts/Caviar_Dreams_Bold-webfont.eot');
+    src: url('/fonts/Caviar_Dreams_Bold-webfont.eot?#iefix') format('embedded-opentype'),
+    url('/fonts/Caviar_Dreams_Bold-webfont.woff') format('woff'),
+    url('/fonts/Caviar_Dreams_Bold-webfont.ttf') format('truetype'),
+    url('/fonts/Caviar_Dreams_Bold-webfont.svg#caviar_dreamsbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
 
 
 .live-content {
     max-width: 1000px;
     min-height: 850px;
-    /*background-size: 150% auto ;*/
-    /*background-image: url("/images/diagonal_waves.png");*/
 }
 
 .live-header {
-    /*background-image: url("/images/back.jpg");*/
-    /*background-repeat: no-repeat;*/
-    /*background-size: 100% auto;*/
-    /*height: 100px;*/
 }
 
 .live-foot {
-    height: 30px;
+    height: 100px;
     position: absolute;
+    left: 30px;
     bottom: 0;
     width: 100%;
 }
 
 .live-foot > div{
-    text-align: center;
+    text-align: left;
 }
 
 div.live-foot > div > label {
     font-size: 85%;
-    color: gray;
+    color: #d3d3d3;
     text-transform: none;
 }
 
 
 .live-menu {
-    /*background-repeat: no-repeat;*/
-    /*background-image: url("/images/sos.png");*/
     font-size: 85%;
     color: green;
     margin: 0;
@@ -56,7 +61,7 @@ div.live-foot > div > label {
 
 .live-menu > nav > a {
     color: #000000;
-    letter-spacing: 0.15em;
+    letter-slepacing: 0.15em;
     /*text-shadow: 1px -1px 1px gray;*/
 }
 
@@ -80,7 +85,6 @@ a.live-link:hover, a.live-link:visited, a.live-link:active {
 }
 
 .live-branch {
-    /*background-image: url("/images/bg1.jpg");*/
     background-size: auto 100% ;
 }
 
@@ -93,24 +97,20 @@ a.live-link:hover, a.live-link:visited, a.live-link:active {
 .fields > .field > label, .field > label {
     font-size: 80%;
     font-weight: bolder;
-    /*font-family: "Helvetica Neue", Helvetica, Arial;*/
     font-family: sf_wonder_comicregular;
 }
 
 
 body {
-    /*background:*/
-        /*url("/images/crossword.png");*/
-
-    background-image: url("/images/food.png");
+    background-image: url("/images/blur001.jpg");
     /*//background-image: url("/images/diagonal_waves.png");*/
     /*background-color: #79a8c7;*/
-    /*background-size: 100% auto;*/
+    background-size: 100% auto;
     padding: 50px;
+    /*height: 100%;*/
+    /*min-height: 100%;*/
+    /*background-attachment:fixed;*/
 
-    height: 100%;
-    min-height: 100%;
-    background-attachment:fixed;
 }
 
 div > div.field > textarea.live-control {
@@ -139,7 +139,8 @@ div.ui.button, span.ui.button {
     /*text-transform: none;*/
     /*box-shadow: 1px 1px 5px 9dc1c9;*/
     /*font-family: sf_wonder_comicregular;*/
-    font-size: 90%;
+    font-family: caviar_dreamsbold;
+    font-size: 80%;
 }
 
 label{
@@ -196,7 +197,7 @@ div.ui.segment {
 }
 
 div.ui.segment.live-content {
-    background-image: none;
+    /*background-image: none;*/
 }
 
 

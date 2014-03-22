@@ -1,11 +1,16 @@
-<div class="ui" style="padding-bottom: 20px">
-    <div data-ng-repeat="id in currentBranch.deviceIds" class="ui " style="margin: 3px">
-         <i class="ui desktop icon animated fadeIn"></i>
-        <span style="white-space: nowrap;padding-left: 0">
-            {{ getDevice(id).deviceId }}
-            <span style="padding-left: 10px">
-                <i class="ui star icon animated pulse" data-ng-repeat="pl in getPlaylists(id)"></i>
+<div>
+    <div style="padding-bottom:10px">
+        <label for="">{{currentBranch.name}}, {{currentBranch.branchId}}</label>
+    </div>
+    <div class="ui" style="padding-bottom: 20px">
+        <div data-ng-repeat="id in currentBranch.deviceIds" class="ui " style="margin: 3px">
+             <i class="ui desktop icon animated fadeIn"></i>
+            <span style="white-space: nowrap;padding-left: 0">
+                {{ getDevice(id).deviceId }}
+                <span style="padding-left: 10px">
+                    <i class="ui star icon animated pulse" data-ng-repeat="pl in getPlaylists(id)"></i>
+                </span>
             </span>
-        </span>
-     </div>
+         </div>
+    </div>
 </div>

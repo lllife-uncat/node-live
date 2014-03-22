@@ -2,10 +2,11 @@
     <thead data-ng-show="true">
     <tr>
         <th><i class="ui bolt icon"></i></th>
-        <th>Title</th>
-        <th>Gallery Items</th>
+        <th>Gallery</th>
+        <th>Items</th>
         <th>
             <!--<i class="ui play icon"></i>-->
+            Playing
         </th>
         <th></th>
     </tr>
@@ -26,20 +27,24 @@
             </span>
         </td>
         <td data-ng-class="{ 'dragging': dragging }">
-            <i  class="ui large icon animated "
+            <i  class="ui large icon animated " data-ng-if="false"
                 data-ng-class="{ photo: gallery.entity == 'PictureGalleries', video: gallery.entity == 'VideoGalleries' }"
                 data-ng-repeat="id in gallery.objectIds">
 
             </i>
+
+            <span class="live-link">
+                {{gallery.objectIds.length}}
+            </span>
         </td>
 
 
         <td>
             <div class="ui mini button"
-                 data-ng-class="{ blue: gallery.$playing === 'Random' }"
+                 data-ng-class="{ 'teal' : gallery.$playing === 'Random' }"
                  data-ng-click="changePlayingType(gallery)">
                 <span style="white-space: nowrap">
-                    <i class="ui play icon"></i>
+                    <!--<i class="ui play icon"></i>-->
                     {{gallery.$playing}}
                 </span>
             </div>

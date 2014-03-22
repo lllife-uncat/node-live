@@ -20,22 +20,22 @@
 
     <script src="/vendors/videojs/video.js"></script>
     <script src="/vendors/angular-sanitize/angular-sanitize.js"></script>
-    <script src="vendors/videogular/videogular.js"></script>
+    <!--<script src="/vendors/videogular/videogular.js"></script>-->
+    <!--<script src="/vendors/imagesloaded/imagesloaded.js"></script>-->
+    <script src="/vendors/BigVideo.js/lib/bigvideo.js"></script>
 
     <script src="/vendors/ui-sortable/sortable.js"></script>
-
     <script src="/final.js"></script>
 
     <!-- dev -->
     <script src="//10.0.0.67:3333/livereload.js"></script>
 
-    <!--<link rel="stylesheet" href="/vendors/StackSlider/css/style.css"/>-->
-    <!--<link rel="stylesheet" href="/vendors/IconHoverEffects/css/component.css"/>-->
     <link rel="stylesheet" href="/vendors/animate.css/animate.css"/>
     <link rel="stylesheet" href="/css/style.css"/>
     <link rel="stylesheet" href="/vendors/semantic/css/semantic.css"/>
     <link rel="stylesheet" href="/vendors/CreativeLinkEffects/css/component.css"/>
     <link rel="stylesheet" href="/vendors/videojs/video-js.css"/>
+    <link rel="stylesheet" href="/vendors/BigVideo.js/css/bigvideo.css"/>
 
 </head>
 
@@ -67,7 +67,18 @@
     </div>
 
     <div class="live-foot">
+
+        <div data-ng-click="stopVideo()" style="margin: 10px 0;cursor: pointer">
+            <label for="" style="color: gray;cursor: pointer">
+                <i class="ui video icon"></i> Play / Pause
+            </label><br/>
+        </div>
+
         <div>
+
+            <label for="">
+                Content Manager 0.1
+            </label> <br/>
             <label for="">
                 K&O Systems and Consulting. 2013
             </label>
