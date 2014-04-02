@@ -202,6 +202,7 @@ function Video() {
 // * Prevent extension
 // @property {string} title
 // @property {string} description
+
 function Picture() {
     this.title = "";
     this.description = "";
@@ -219,6 +220,7 @@ function Picture() {
 // * Prevent extension
 // @property {string} name
 // @property {string} description
+
 function Branch() {
     this.branchId = "";
     this.name = "";
@@ -234,6 +236,7 @@ function Branch() {
 // * Prevent extension
 // @property {string} deviceId
 // @property {string} serialNumber
+
 function Device() {
     this.deviceId = "";
     this.serialNumber = "";
@@ -248,6 +251,7 @@ function Device() {
 // @property {string} title
 // @property {string} description
 // @property {string} galleryType, available in GellertyType's property
+
 function PictureGallery() {
     this.title = "";
     this.description = "";
@@ -262,6 +266,7 @@ function PictureGallery() {
 // * Prevent extension
 // @property {string} title
 // @property {string} description
+
 function VideoGallery() {
     this.title = "";
     this.description = "";
@@ -296,6 +301,7 @@ function GalleryDetail() {
 // @property {Branch}
 // @property {PictureGallery}
 // @property {VideoGallery}
+
 exports.models = {
     Base: Base,
     Device: Device,
@@ -305,5 +311,6 @@ exports.models = {
     PictureGallery: PictureGallery,
     VideoGallery: VideoGallery,
     Playlist: Playlist,
-    GalleryDetail: GalleryDetail
+    GalleryDetail: GalleryDetail,
+    ObjectId: ObjectId
 };

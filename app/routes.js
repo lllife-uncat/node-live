@@ -35,6 +35,11 @@ module.exports = function(app) {
     // @request body
     // { entity: "Names", xx: "xx", yy: "yy" }
     app.post("/api/findAllByExample", function(req, res) {
+
+        // res.header('Access-Control-Allow-Origin', "*");
+        // res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+        // res.header('Access-Control-Allow-Headers', 'Content-Type');
+
         var body = req.body;
         Base.findAllByExample(body, body.entity, function(success, documents) {
             if (!success) res.statusCode = 400;

@@ -4,6 +4,8 @@ app.controller("HomeController", function ($scope, $timeout, $rootScope, playerS
 
     angular.element(document).ready(function () {
 
+//        playerService.video.start();
+
         globalService.findAllByExample({publish: true, entity: "Videos"}, function (success, data) {
             if (success && data) {
                 $scope.videos = data;

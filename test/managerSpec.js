@@ -2,7 +2,7 @@ var expect = require("chai").expect;
 var models = require("../app/modules/db.js").models;
 var Base = models.Base;
 
-describe("[Entity]", function() {
+describe.skip("[Entity]", function() {
 
     describe("[Device]", function() {
         it("should interite success", function(done) {

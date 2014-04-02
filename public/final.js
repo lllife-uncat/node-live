@@ -204,7 +204,7 @@ app.factory("playerService", function ($timeout) {
             bv.init();
 //            bv.show("/images/bg1.jpg");
             $timeout(function () {
-                bv.show("/videos/bird.mp4", { ambient: true });
+                bv.show("/videos/oceans.mp4", { ambient: true });
                 bv.getPlayer().volume(0);
                 play = true;
             }, 500);
@@ -243,42 +243,57 @@ app.factory("uiService", function () {
         Dialog: Dialog
     };
 });
-app.controller("BranchController", function($scope, $rootScope, models, globalService, playerService) {
+app.controller("BranchController", function ($scope, $rootScope, models, globalService, playerService) {
 
     $rootScope.title = "Live Branch";
 
+    /* Create/update current branch record.
+     * Push return result into $scope.branchs
+     * @params {boolean} success.
+     * @@params {Branch} data.
+     */
     function updateCallback(success, data) {
-        if(success) {
-            if(!$scope.currentBranch._id) {
+        if (success) {
+            if (!$scope.currentBranch._id) {
                 $scope.branchs.push(data);
             }
             $scope.currentBranch = new models.Branch();
         }
     }
 
+    /* Find list of branchs by given example,
+     * Update $scope.branchs to request results.
+     * @params {boolean} success.
+     * @params {Branch[]} data.
+     */
     function findAllByExampleCallback(success, data) {
-        if(success) {
+        if (success) {
             $scope.branchs = data;
-            if($scope.branchs.length > 0){
+            if ($scope.branchs.length > 0) {
                 $scope.currentBranch = $scope.branchs[0];
             }
         }
     }
 
-    angular.element(document).ready(function(){
+    /* Document.Ready handler.
+     * Find branchs by example, update to $scope.branchs.
+     * Find devices by example, update to $scope.devices.
+     * Find playlists by example, update to $scope.playlists.
+     */
+    angular.element(document).ready(function () {
         var example = { entity: "Branchs", publish: true };
         globalService.findAllByExample(example, findAllByExampleCallback);
 
-        globalService.findAllByExample( { entity: "Devices", publish: true }, function(success, data){
-            if(success && data){
+        globalService.findAllByExample({ entity: "Devices", publish: true }, function (success, data) {
+            if (success && data) {
                 $scope.devices = data;
             }
         });
 
-        globalService.findAllByExample( { entity: "Playlists", publish: true }, function(success, data){
-           if(success && data) {
-               $scope.playlists = data;
-           }
+        globalService.findAllByExample({ entity: "Playlists", publish: true }, function (success, data) {
+            if (success && data) {
+                $scope.playlists = data;
+            }
         });
     });
 
@@ -287,26 +302,25 @@ app.controller("BranchController", function($scope, $rootScope, models, globalSe
     $scope.branchs = [];
     $scope.devices = [];
     $scope.editMode = false;
-
     $scope.playlists = [];
 
-    $scope.toggleMode = function() {
+    $scope.toggleMode = function () {
         $scope.editMode = !$scope.editMode;
     };
 
-    $scope.removeBranch = function(branch){
+    $scope.removeBranch = function (branch) {
         branch.publish = false;
-        globalService.update(branch, function(success, data){
-           if(success){
-               var index = $scope.branchs.indexOf(branch);
-               $scope.branchs.splice(index,1);
-           }
+        globalService.update(branch, function (success, data) {
+            if (success) {
+                var index = $scope.branchs.indexOf(branch);
+                $scope.branchs.splice(index, 1);
+            }
         });
     };
 
-    $scope.getPlaylists = function(id){
+    $scope.getPlaylists = function (id) {
 //        var id = device._id;
-        var playlist = _.filter($scope.playlists, function(pl){
+        var playlist = _.filter($scope.playlists, function (pl) {
             return pl.deviceIds.indexOf(id) !== -1;
         });
 
@@ -316,64 +330,64 @@ app.controller("BranchController", function($scope, $rootScope, models, globalSe
     };
 
 
-    $scope.addDevice = function(device) {
-       globalService.update($scope.currentDevice, function(success, data){
-           if(success) {
-               if(device._id){
+    $scope.addDevice = function (device) {
+        globalService.update($scope.currentDevice, function (success, data) {
+            if (success) {
+                if (device._id) {
 
-               }
-               else {
-                   $scope.devices.push(data);
-                   $scope.currentBranch.deviceIds.push(data._id);
-               }
+                }
+                else {
+                    $scope.devices.push(data);
+                    $scope.currentBranch.deviceIds.push(data._id);
+                }
 
-               $scope.currentDevice = new models.Device();
-           }
-       });
+                $scope.currentDevice = new models.Device();
+            }
+        });
     };
 
 
-    $scope.editDevice = function(deviceId){
+    $scope.editDevice = function (deviceId) {
         var device = $scope.getDevice(deviceId);
         $scope.currentDevice = device;
     };
 
-    $scope.getDevice = function(deviceId) {
+    $scope.getDevice = function (deviceId) {
         var device = _.findWhere($scope.devices, { _id: deviceId});
         return device;
     };
 
-    $scope.removeDevice = function(deviceId){
+    $scope.removeDevice = function (deviceId) {
         var branch = $scope.currentBranch;
         console.log(branch);
         var index = branch.deviceIds.indexOf(deviceId);
-        if(index !== -1){
-            branch.deviceIds.splice(index,1);
+        if (index !== -1) {
+            branch.deviceIds.splice(index, 1);
         }
     };
 
-    $scope.addBranch = function(){
+    $scope.addBranch = function () {
         $scope.editMode = true;
         $scope.currentBranch = new models.Branch();
     };
 
-    $scope.editBranch = function(branch){
+    $scope.editBranch = function (branch) {
         $scope.editMode = true;
         $scope.currentBranch = branch;
     };
 
-    $scope.save = function(entity) {
+    $scope.save = function (entity) {
         console.log("[saving]");
         console.log(entity);
 
         globalService.update(entity, updateCallback);
     };
 
-    $scope.selectBranch = function(branch){
+    $scope.selectBranch = function (branch) {
         $scope.currentBranch = branch;
     };
 
-    $scope.isSelected = function(branch){
+    $scope.isSelected = function (branch) {
         return branch === $scope.currentBranch;
     };
 });
@@ -382,6 +396,8 @@ app.controller("HomeController", function ($scope, $timeout, $rootScope, playerS
     $rootScope.title = "Live Home";
 
     angular.element(document).ready(function () {
+
+//        playerService.video.start();
 
         globalService.findAllByExample({publish: true, entity: "Videos"}, function (success, data) {
             if (success && data) {

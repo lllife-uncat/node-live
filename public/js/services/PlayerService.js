@@ -8,7 +8,7 @@ app.factory("playerService", function ($timeout) {
             bv.init();
 //            bv.show("/images/bg1.jpg");
             $timeout(function () {
-                bv.show("/videos/bird.mp4", { ambient: true });
+                bv.show("/videos/oceans.mp4", { ambient: true });
                 bv.getPlayer().volume(0);
                 play = true;
             }, 500);
