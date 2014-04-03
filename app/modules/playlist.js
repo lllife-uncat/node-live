@@ -1,13 +1,14 @@
-var models = require("./db").models;
+models = require("./db").models;
 var Base = models.Base;
 var ObjectId = models.ObjectId;
 
 function DevicePlaylist() {
     this.playlists = [];
-    this.playlistItems = {};
+    this.galleryDetails = {};
+    this.galleryItems = {};
 }
 
-function getPlaylist(serialNumber, callback) {
+function getDevicePlaylists(serialNumber, callback) {
 
     function findItem(id, type, callback){
         var example = {
@@ -57,7 +58,7 @@ function getPlaylist(serialNumber, callback) {
         Base.findAllByExample(example, example.entity, function(success, playlists){
             if(success){
                 console.log("[Find Playlists OK]");
-                callback(playlists)
+                callback(playlists);
             }else {
                 console.log("[Find Playlists Failed]");
                 console.log(playlists);
@@ -67,6 +68,7 @@ function getPlaylist(serialNumber, callback) {
     }
 
     function queryDevicePlaylist(serialNumber, callback) {
+
         var dv = new DevicePlaylist();
 
         var example = {
@@ -75,52 +77,63 @@ function getPlaylist(serialNumber, callback) {
             serialNumber: serialNumber
         };
 
-        // find device
+        // Find playlist by given example
+        // - entity: "Devices"
+        // - publish: true
+        // - serialNumber: <function args>
         Base.findByExample(example, example.entity, function (success, returnDevice) {
+
+            //
             if (success && returnDevice) {
-                var finish = false;
-                var  device = returnDevice;
-                findPlaylists(device._id, function(returnPlaylists){
 
-                    var playlists = returnPlaylists;
-                    playlists.forEach(function(returnPlaylist){
+                findPlaylists(returnDevice._id, function(returnPlaylists){
 
-                        var playlist = returnPlaylist;
-                        dv.playlists.push(playlist);
+                    returnPlaylists.forEach(function(returnPlaylist){
 
-                        playlist.galleries.forEach(function(galleryElement){
+                        delete returnPlaylist.deviceIds;
+                        dv.playlists.push(returnPlaylist);
+                        returnPlaylist.galleries.forEach(function(galleryElement){
+
                             findGallery(galleryElement.objectId, galleryElement.type, function(returnGallery){
 
-                                var gallery = returnGallery;
-                                gallery.objectIds.forEach(function(objectElement){
-                                    var object = objectElement;
+                                dv.galleryDetails[returnGallery._id] = returnGallery;
+
+                                returnGallery.objectIds.forEach(function(objectElement){
+
                                     var type = "Pictures";
                                     if(returnGallery.entity == "VideoGalleries") type = "Videos";
 
-
-                                    findItem(object, type, function(item){
+                                    findItem(objectElement, type, function(item){
                                         console.log(item);
-                                        if(item)
-                                            dv.playlistItems[item._id] = item;
+                                        if(item) {
+                                            var url = "/api/picture/" + item._id;
+                                            if(item.entity == "Videos") {
+                                               url = "/api/video/" + item._id;
+                                            }
+
+                                            delete item.path;
+                                            item.url = url;
+
+                                            dv.galleryItems[item._id] = item;
+                                        }
                                     });
                                 });
                             });
                         });
-
-
                     });
                 });
 
-                while(!finish) {}
-                callback(true, dv);
+                setTimeout(function() {
+                    callback(true, dv);
+                }, 2000);
+
             } else {
                 callback(false, null);
             }
         });
     }
-
     queryDevicePlaylist(serialNumber, callback);
 }
 
-exports.getPlaylists = getPlaylist;
+exports.getDevicePlaylists = getDevicePlaylists;
 
