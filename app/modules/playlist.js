@@ -1,139 +1,198 @@
-models = require("./db").models;
+/**
+* Require "db" module for persist data into database.
+*/
+var models = require("./db").models;
 var Base = models.Base;
 var ObjectId = models.ObjectId;
 
+/**
+* Class DevicePlaylist
+* @member {Array} playlists
+* @member {Array} galleryDetails
+* @member {Array} galleryItems
+*/
 function DevicePlaylist() {
-    this.playlists = [];
-    this.galleryDetails = {};
-    this.galleryItems = {};
+  this.playlists = [];
+  this.galleryDetails = {};
+  this.galleryItems = {};
 }
 
+/**
+* Get DevicePlaylist by device's serail number.
+* @param {String} serial number.
+* @param {function} callback.
+*/
 function getDevicePlaylists(serialNumber, callback) {
 
-    function findItem(id, type, callback){
-        var example = {
-            entity: type,
-            _id: new ObjectId(id)
-        };
+  /**
+  * Find gallery item upto given type.
+  * Geven type can be "Video" or "Picture".
+  * @param {String} id: item id.
+  * @param {String} type: item type (Video/Picture)
+  * @param {fucntion} callback: callback function.
+  */
+  function findItem(id, type, callback){
+    var example = {
+      entity: type,
+      _id: new ObjectId(id)
+    };
 
-        console.log("[Find Item]");
-        console.log(example);
+    console.log("[Find Item]");
+    console.log(example);
 
-        Base.findByExample(example, example.entity, function(success, data){
-            if(success){
-                console.log("[Find Video/Picture OK]");
-                callback(data);
-            }else {
-                console.log("[Find Video/Picture Failed]");
-                callback(null);
-            }
-        });
-    }
+    Base.findByExample(example, example.entity, function(success, data){
+      if(success){
+        console.log("[Find Video/Picture OK]");
+        callback(data);
+      }else {
+        console.log("[Find Video/Picture Failed]");
+        callback(null);
+      }
+    });
+  }
 
-    function findGallery(id, type, callback) {
-        var example = {
-            entity: type,
-            _id: new ObjectId(id)
-        };
+  /**
+  * Find gallery up to given type.
+  * Given type can be "VideoGalleries" or "PictureGalleries".
+  * @param {String} id: gallery id.
+  * @param {String} type: gallery type (VideoGalleries/PictureGalleries)
+  * @param {Function} callback.
+  */
+  function findGallery(id, type, callback) {
+    var example = {
+      entity: type,
+      _id: new ObjectId(id)
+    };
 
-        Base.findByExample(example, example.entity, function(success, data){
-            if(success) {
-                console.log("[Find Gallery OK]");
-                callback(data);
-            }else {
-                console.log("[Find Gallery Failed]");
-                console.log(data);
-                callback(null);
-            }
-        });
-    }
+    Base.findByExample(example, example.entity, function(success, data){
+      if(success) {
+        console.log("[Find Gallery OK]");
+        callback(data);
+      }else {
+        console.log("[Find Gallery Failed]");
+        console.log(data);
+        callback(null);
+      }
+    });
+  }
 
-    function findPlaylists(deviceId, callback){
-        var example = {
-            entity: "Playlists",
-            deviceIds: { $in: [deviceId.toString()] },
-            publish: true
-        };
+  /**
+  * Find all playlist match device's serial number.
+  * @param {String} devices' serial number.
+  * @param {function} callback.
+  */
+  function findPlaylists(deviceId, callback){
+    var example = {
+      entity: "Playlists",
+      deviceIds: { $in: [deviceId.toString()] },
+      publish: true
+    };
 
-        Base.findAllByExample(example, example.entity, function(success, playlists){
-            if(success){
-                console.log("[Find Playlists OK]");
-                callback(playlists);
-            }else {
-                console.log("[Find Playlists Failed]");
-                console.log(playlists);
-                callback([]);
-            }
-        });
-    }
+    Base.findAllByExample(example, example.entity, function(success, playlists){
+      if(success){
+        console.log("[Find Playlists OK]");
+        callback(playlists);
+      }else {
+        console.log("[Find Playlists Failed]");
+        console.log(playlists);
+        callback([]);
+      }
+    });
+  }
 
-    function queryDevicePlaylist(serialNumber, callback) {
+  /**
+  * Find all Playlist match device's serail number.
+  * @param {String} serialNUmber: device's serial number.
+  * @param {Function} callback.
+  */
+  function queryDevicePlaylist(serialNumber, callback) {
 
-        var dv = new DevicePlaylist();
+    var dv = new DevicePlaylist();
 
-        var example = {
-            entity: "Devices",
-            publish: true,
-            serialNumber: serialNumber
-        };
+    // Query conditions.
+    // Prefer all publish device and match given serial number.
+    var example = {
+      entity: "Devices",
+      publish: true,
+      serialNumber: serialNumber
+    };
 
-        // Find playlist by given example
-        // - entity: "Devices"
-        // - publish: true
-        // - serialNumber: <function args>
-        Base.findByExample(example, example.entity, function (success, returnDevice) {
+    // Find playlist by given example.
+    // - entity: "Devices"
+    // - publish: true
+    // - serialNumber: <function args>
+    Base.findByExample(example, example.entity, function (success, returnDevice) {
 
-            //
-            if (success && returnDevice) {
+      if (success && returnDevice) {
 
-                findPlaylists(returnDevice._id, function(returnPlaylists){
+        // Find all playlist match device's serial number.
+        findPlaylists(returnDevice._id, function(returnPlaylists){
 
-                    returnPlaylists.forEach(function(returnPlaylist){
+          // Treveral over play list and find play list detail.
+          returnPlaylists.forEach(function(returnPlaylist){
 
-                        delete returnPlaylist.deviceIds;
-                        dv.playlists.push(returnPlaylist);
-                        returnPlaylist.galleries.forEach(function(galleryElement){
+            // Delete deviceIds property from object (don't need on client).
+            delete returnPlaylist.deviceIds;
+            dv.playlists.push(returnPlaylist);
 
-                            findGallery(galleryElement.objectId, galleryElement.type, function(returnGallery){
+            // Treversal over gelleries and find gellery detail.
+            returnPlaylist.galleries.forEach(function(galleryElement){
 
-                                dv.galleryDetails[returnGallery._id] = returnGallery;
+              // Find gallery detail.
+              findGallery(galleryElement.objectId, galleryElement.type, function(returnGallery){
 
-                                returnGallery.objectIds.forEach(function(objectElement){
+                // Append gallery id and detail into result object.
+                dv.galleryDetails[returnGallery._id] = returnGallery;
 
-                                    var type = "Pictures";
-                                    if(returnGallery.entity == "VideoGalleries") type = "Videos";
+                // Find item under gallery.
+                returnGallery.objectIds.forEach(function(objectElement){
 
-                                    findItem(objectElement, type, function(item){
-                                        console.log(item);
-                                        if(item) {
-                                            var url = "/api/picture/" + item._id;
-                                            if(item.entity == "Videos") {
-                                               url = "/api/video/" + item._id;
-                                            }
+                  // Check item type.
+                  var type = "Pictures";
+                  if(returnGallery.entity == "VideoGalleries") type = "Videos";
 
-                                            delete item.path;
-                                            item.url = url;
+                  // Generate item information.
+                  findItem(objectElement, type, function(item){
+                    console.log(item);
 
-                                            dv.galleryItems[item._id] = item;
-                                        }
-                                    });
-                                });
-                            });
-                        });
-                    });
-                });
+                    // Generate item url for image and video.
+                    if(item) {
+                      var url = "/api/picture/" + item._id;
+                      if(item.entity == "Videos") {
+                        url = "/api/video/" + item._id;
+                      }
 
-                setTimeout(function() {
-                    callback(true, dv);
-                }, 2000);
+                      // Delete server path (don't need on client).
+                      delete item.path;
 
-            } else {
-                callback(false, null);
-            }
-        });
-    }
-    queryDevicePlaylist(serialNumber, callback);
+                      // Append item url for download.
+                      item.url = url;
+
+                      // Append item id and detail into result object.
+                      dv.galleryItems[item._id] = item;
+                    }  // end if
+                  }); // end find item
+                }); // end returnGallery.forEach
+              }); // end findGallery
+            }); // end returnGallery.forEach
+          }); // end returnPlaylist.forEach
+        }); // end findPlaylist
+
+        // Dont' find a correct way to return with this asynchronize query.
+        // Just fix timeout and return declair object.
+        setTimeout(function() {
+          callback(true, dv);
+        }, 2000);
+
+      } else {
+        callback(false, null);
+      }
+    });
+  }
+
+  // Start query information here.
+  queryDevicePlaylist(serialNumber, callback);
 }
 
+// Export function here.
 exports.getDevicePlaylists = getDevicePlaylists;
-

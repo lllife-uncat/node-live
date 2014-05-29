@@ -21,15 +21,24 @@
     font-style: normal;
 }
 
+/**
+*/
+video {
+  max-width: 800px;
+}
 
-
-
-.live-content {
-    max-width: 1000px;
-    min-height: 850px;
+.live-body{
+/*   max-width: 1100px;
+  min-height: 850px;
+  width: 1000px; */
+  width: 1100px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .live-header {
+  height: 50px;
 }
 
 .live-foot {
@@ -44,7 +53,7 @@
     text-align: left;
 }
 
-div.live-foot > div > label {
+.live-foot > div > label {
     font-size: 85%;
     color: #d3d3d3;
     text-transform: none;
@@ -65,23 +74,22 @@ div.live-foot > div > label {
     /*text-shadow: 1px -1px 1px gray;*/
 }
 
-.live-header {
-}
-
 .live-view {
-    padding-top: 10px;
-    max-width: 950px;
-    padding-left: 20px;
+  padding-top: 10px;
+  padding-left: 20px;
+  min-height: 600px;
 }
 
 .live-link {
     color: #000000;
     text-decoration: none;
-    font-family: sf_wonder_comicregular;
+/*     font-family: sf_wonder_comicregular; */
 }
 
 a.live-link:hover, a.live-link:visited, a.live-link:active {
-    color: inherit;
+  color: inherit;
+  vertical-align: middle;
+  text-align: center;
 }
 
 .live-branch {
@@ -97,19 +105,21 @@ a.live-link:hover, a.live-link:visited, a.live-link:active {
 .fields > .field > label, .field > label {
     font-size: 80%;
     font-weight: bolder;
-    font-family: sf_wonder_comicregular;
+/*     font-family: sf_wonder_comicregular; */
 }
 
 
 body {
-    background-image: url("/images/blur001.jpg");
-    /*//background-image: url("/images/diagonal_waves.png");*/
-    /*background-color: #79a8c7;*/
-    background-size: 100% auto;
-    padding: 50px;
-    /*height: 100%;*/
-    /*min-height: 100%;*/
-    /*background-attachment:fixed;*/
+  background-image: url("/images/blur001.jpg");
+  /*//background-image: url("/images/diagonal_waves.png");*/
+  /*background-color: #79a8c7;*/
+  background-size: 100% auto;
+  padding: 50px;
+
+  background-size: cover;
+  /*height: 100%;*/
+  /*min-height: 100%;*/
+  /*background-attachment:fixed;*/
 
 }
 
@@ -118,12 +128,12 @@ div > div.field > textarea.live-control {
 }
 
 table.ui > thead > tr > th {
-    font-family: sf_wonder_comicregular;
+/*     font-family: sf_wonder_comicregular; */
     font-size: 90%;
 }
 
 .live-index {
-    font-family: sf_wonder_comicregular;
+/*     font-family: sf_wonder_comicregular; */
     font-size: 95%;
 }
 
@@ -144,7 +154,7 @@ div.ui.button, span.ui.button {
 }
 
 label{
-    font-family: sf_wonder_comicregular;
+/*     font-family: sf_wonder_comicregular; */
     font-weight: bolder;
     color: #555555;
 }

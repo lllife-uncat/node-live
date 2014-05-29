@@ -224,6 +224,7 @@ app.factory("playerService", function ($timeout) {
         video: new VideoPlayer()
     };
 });
+
 app.factory("uiService", function () {
 
     function Dialog(id) {
@@ -243,208 +244,274 @@ app.factory("uiService", function () {
         Dialog: Dialog
     };
 });
+/**
+* Manage all branch and device infomation.
+* Dependencies
+* models: Entity object.
+* globalService: Web service manager for persist information.
+* playerService:
+*/
 app.controller("BranchController", function ($scope, $rootScope, models, globalService, playerService) {
 
-    $rootScope.title = "Live Branch";
+  $rootScope.title = "Live Branch";
 
-    /* Create/update current branch record.
-     * Push return result into $scope.branchs
-     * @params {boolean} success.
-     * @@params {Branch} data.
-     */
-    function updateCallback(success, data) {
-        if (success) {
-            if (!$scope.currentBranch._id) {
-                $scope.branchs.push(data);
-            }
-            $scope.currentBranch = new models.Branch();
-        }
+  /**
+  * Create/update current branch record.
+  * Push return result into $scope.branchs
+  * @param {Boolean} success.
+  * @param {Branch} data.
+  */
+  function updateCallback(success, data) {
+    if (success) {
+      if (!$scope.currentBranch._id) {
+        $scope.branchs.push(data);
+      }
+      $scope.currentBranch = new models.Branch();
     }
+  }
 
-    /* Find list of branchs by given example,
-     * Update $scope.branchs to request results.
-     * @params {boolean} success.
-     * @params {Branch[]} data.
-     */
-    function findAllByExampleCallback(success, data) {
-        if (success) {
-            $scope.branchs = data;
-            if ($scope.branchs.length > 0) {
-                $scope.currentBranch = $scope.branchs[0];
-            }
-        }
+  /**
+  * Find list of branchs by given example,
+  * Update $scope.branchs to request results.
+  * @param {Boolean} success.
+  * @param {Branch[]} data.
+  */
+  function findAllByExampleCallback(success, data) {
+    if (success) {
+      $scope.branchs = data;
+      if ($scope.branchs.length > 0) {
+        $scope.currentBranch = $scope.branchs[0];
+      }
     }
+  }
 
-    /* Document.Ready handler.
-     * Find branchs by example, update to $scope.branchs.
-     * Find devices by example, update to $scope.devices.
-     * Find playlists by example, update to $scope.playlists.
-     */
-    angular.element(document).ready(function () {
-        var example = { entity: "Branchs", publish: true };
-        globalService.findAllByExample(example, findAllByExampleCallback);
+  /**
+  * Document.Ready handler.
+  * Find branchs by example, update to $scope.branchs.
+  * Find devices by example, update to $scope.devices.
+  * Find playlists by example, update to $scope.playlists.
+  */
+  angular.element(document).ready(function () {
+    var example = { entity: "Branchs", publish: true };
+    globalService.findAllByExample(example, findAllByExampleCallback);
 
-        globalService.findAllByExample({ entity: "Devices", publish: true }, function (success, data) {
-            if (success && data) {
-                $scope.devices = data;
-            }
-        });
-
-        globalService.findAllByExample({ entity: "Playlists", publish: true }, function (success, data) {
-            if (success && data) {
-                $scope.playlists = data;
-            }
-        });
+    globalService.findAllByExample({ entity: "Devices", publish: true }, function (success, data) {
+      if (success && data) {
+        $scope.devices = data;
+      }
     });
 
-    $scope.currentBranch = new models.Branch();
-    $scope.currentDevice = new models.Device();
-    $scope.branchs = [];
-    $scope.devices = [];
-    $scope.editMode = false;
-    $scope.playlists = [];
+    globalService.findAllByExample({ entity: "Playlists", publish: true }, function (success, data) {
+      if (success && data) {
+        $scope.playlists = data;
+      }
+    });
+  });
 
-    $scope.toggleMode = function () {
-        $scope.editMode = !$scope.editMode;
-    };
+  /**
+  * All controller variable.
+  * this.currentBranch: current selected branch.
+  * this.currentDevice: current selected device.
+  * this.barnchs: all branchs.
+  * this.devices: all devices.
+  * this.editMode: current mode.
+  * this.playlists: all playlists.
+  */
+  $scope.currentBranch = new models.Branch();
+  $scope.currentDevice = new models.Device();
+  $scope.branchs = [];
+  $scope.devices = [];
+  $scope.editMode = false;
+  $scope.playlists = [];
 
-    $scope.removeBranch = function (branch) {
-        branch.publish = false;
-        globalService.update(branch, function (success, data) {
-            if (success) {
-                var index = $scope.branchs.indexOf(branch);
-                $scope.branchs.splice(index, 1);
-            }
-        });
-    };
+  /**
+  * Toggle edit mode.
+  * edit: Show input form.
+  * !edit: Show table.
+  */
+  $scope.toggleMode = function () {
+    $scope.editMode = !$scope.editMode;
+  };
 
-    $scope.getPlaylists = function (id) {
-//        var id = device._id;
-        var playlist = _.filter($scope.playlists, function (pl) {
-            return pl.deviceIds.indexOf(id) !== -1;
-        });
+  /**
+  * Remove geven brach from database and page.
+  * @param {Object} branch.
+  */
+  $scope.removeBranch = function (branch) {
+    branch.publish = false;
+    globalService.update(branch, function (success, data) {
+      if (success) {
+        var index = $scope.branchs.indexOf(branch);
+        $scope.branchs.splice(index, 1);
+      }
+    });
+  };
 
-        console.log(playlist);
+  /**
+  * Get playlist by id.
+  * @param {String} id: playlist's id.
+  * @return {Object} playlist.
+  */
+  $scope.getPlaylists = function (id) {
+    //        var id = device._id;
+    var playlist = _.filter($scope.playlists, function (pl) {
+      return pl.deviceIds.indexOf(id) !== -1;
+    });
 
-        return playlist;
-    };
+    console.log(playlist);
 
+    return playlist;
+  };
 
-    $scope.addDevice = function (device) {
-        globalService.update($scope.currentDevice, function (success, data) {
-            if (success) {
-                if (device._id) {
+  /**
+  * Add insert new device into database via web service.
+  * @param {Object} device.
+  */
+  $scope.addDevice = function (device) {
+    globalService.update($scope.currentDevice, function (success, data) {
+      if (success) {
+        if (device._id) {
 
-                }
-                else {
-                    $scope.devices.push(data);
-                    $scope.currentBranch.deviceIds.push(data._id);
-                }
-
-                $scope.currentDevice = new models.Device();
-            }
-        });
-    };
-
-
-    $scope.editDevice = function (deviceId) {
-        var device = $scope.getDevice(deviceId);
-        $scope.currentDevice = device;
-    };
-
-    $scope.getDevice = function (deviceId) {
-        var device = _.findWhere($scope.devices, { _id: deviceId});
-        return device;
-    };
-
-    $scope.removeDevice = function (deviceId) {
-        var branch = $scope.currentBranch;
-        console.log(branch);
-        var index = branch.deviceIds.indexOf(deviceId);
-        if (index !== -1) {
-            branch.deviceIds.splice(index, 1);
         }
-    };
+        else {
+          $scope.devices.push(data);
+          $scope.currentBranch.deviceIds.push(data._id);
+        }
 
-    $scope.addBranch = function () {
-        $scope.editMode = true;
-        $scope.currentBranch = new models.Branch();
-    };
+        $scope.currentDevice = new models.Device();
+      }
+    });
+  };
 
-    $scope.editBranch = function (branch) {
-        $scope.editMode = true;
-        $scope.currentBranch = branch;
-    };
+  /**
+  * Show geven device in form.
+  * @param {String} deviceId.
+  */
+  $scope.editDevice = function (deviceId) {
+    var device = $scope.getDevice(deviceId);
+    $scope.currentDevice = device;
+  };
 
-    $scope.save = function (entity) {
-        console.log("[saving]");
-        console.log(entity);
+  /**
+  * Get device by id.
+  * @param {String} deviceId.
+  * @return {Object} device.
+  */
+  $scope.getDevice = function (deviceId) {
+    var device = _.findWhere($scope.devices, { _id: deviceId});
+    return device;
+  };
 
-        globalService.update(entity, updateCallback);
-    };
+  /**
+  * Remove device from current branch.
+  * @param {String} deviceId.
+  */
+  $scope.removeDevice = function (deviceId) {
+    var branch = $scope.currentBranch;
+    console.log(branch);
+    var index = branch.deviceIds.indexOf(deviceId);
+    if (index !== -1) {
+      branch.deviceIds.splice(index, 1);
+    }
+  };
 
-    $scope.selectBranch = function (branch) {
-        $scope.currentBranch = branch;
-    };
+  /**
+  * Show form to add new branch.
+  */
+  $scope.addBranch = function () {
+    $scope.editMode = true;
+    $scope.currentBranch = new models.Branch();
+  };
 
-    $scope.isSelected = function (branch) {
-        return branch === $scope.currentBranch;
-    };
+  /**
+  * Show geven brach for edit.
+  */
+  $scope.editBranch = function (branch) {
+    $scope.editMode = true;
+    $scope.currentBranch = branch;
+  };
+
+  /**
+  * Update entity object into database vai web service.
+  */
+  $scope.save = function (entity) {
+    console.log("[saving]");
+    console.log(entity);
+    globalService.update(entity, updateCallback);
+  };
+
+  /**
+  * Show given brach in web page.
+  */
+  $scope.selectBranch = function (branch) {
+    $scope.currentBranch = branch;
+  };
+
+  /**
+  * Check is branch is selected.
+  */
+  $scope.isSelected = function (branch) {
+    return branch === $scope.currentBranch;
+  };
 });
+
+/**
+* HomeController manage home page.
+*/
 app.controller("HomeController", function ($scope, $timeout, $rootScope, playerService, globalService) {
 
-    $rootScope.title = "Live Home";
+  $rootScope.title = "Live Home";
 
-    angular.element(document).ready(function () {
+  angular.element(document).ready(function () {
 
-//        playerService.video.start();
+    //        playerService.video.start();
 
-        globalService.findAllByExample({publish: true, entity: "Videos"}, function (success, data) {
-            if (success && data) {
-                $scope.videos = data;
+    globalService.findAllByExample({publish: true, entity: "Videos"}, function (success, data) {
+      if (success && data) {
+        $scope.videos = data;
 
-                if ($scope.videos.length > 0) {
-                    var video = $scope.videos[0];
-                    $scope.selectVideo(video);
-                }
-            }
-        });
-
+        if ($scope.videos.length > 0) {
+          var video = $scope.videos[0];
+          $scope.selectVideo(video);
+        }
+      }
     });
 
-    $scope.videos = [];
+  });
+
+  $scope.videos = [];
+  $scope.currentVideo = null;
+
+  $scope.selectVideo = function (video) {
+    $scope.currentVideo = video;
+    console.log(video);
+
+    $scope.playVideo(video);
+  };
+
+  $scope.isSelectedVideo = function (video) {
+    return $scope.currentVideo === video;
+  };
+
+  $scope.getVideoPath = function (video) {
+    if (!video) return "";
+    return "/api/video/" + video._id;
+  };
+
+  $scope.playVideo = function (video) {
     $scope.currentVideo = null;
 
-    $scope.selectVideo = function (video) {
-        $scope.currentVideo = video;
-        console.log(video);
-
-        $scope.playVideo(video);
-    };
-
-    $scope.isSelectedVideo = function (video) {
-        return $scope.currentVideo === video;
-    };
-
-    $scope.getVideoPath = function (video) {
-        if (!video) return "";
-        return "/api/video/" + video._id;
-    };
-
-    $scope.playVideo = function (video) {
-        $scope.currentVideo = null;
-
-        $timeout(function () {
-            $scope.currentVideo = video;
-            $(".live-video").load();
-        }, 200);
-    };
+    $timeout(function () {
+      $scope.currentVideo = video;
+      $(".live-video").load();
+    }, 200);
+  };
 });
 
 
 app.controller("MainController", function($scope, playerService, globalService){
     $scope.stopVideo = function(){
-        playerService.video.stop();
+        // playerService.video.stop();
     };
 
     angular.element(document).ready(function(){
@@ -453,6 +520,7 @@ app.controller("MainController", function($scope, playerService, globalService){
     });
 
 });
+
 app.controller("PictureController", function ($scope, $rootScope, globalService, models, $upload, $timeout) {
 
     $rootScope.title = "Live Picture";
@@ -916,173 +984,255 @@ app.controller("PlaylistController", function ($scope, $rootScope, models, globa
         });
     };
 });
+/**
+* VideoController manage all video information.
+* Dependencies
+* models: Entity object.
+* globalService: Entity information retriever.
+* $upload: File upload module.
+*/
 app.controller("VideoController", function ($scope, models, globalService, $timeout, $upload, $rootScope) {
 
-    $rootScope.title = "Live Video";
+  $rootScope.title = "Live Video";
 
-    function createReference(video) {
-        video.$videos = [];
-        video.objectIds.forEach(function (id) {
-            globalService.findById(id, "Videos", function (success, data) {
-                if (success) {
-                    video.$videos.push(data);
-                }
-            });
+  /**
+  * Append dependency information into gallery.
+  * @param {Object} video : video gallery.
+  */
+  function createReference(video) {
+    video.$videos = [];
+    video.objectIds.forEach(function (id) {
+      globalService.findById(id, "Videos", function (success, data) {
+        if (success) {
+          video.$videos.push(data);
+        }
+      });
+    });
+  }
+
+  /**
+  * Document ready operation.
+  * 1. Load all video gallery via web service.
+  * 2. Initial this.gallerties variable.
+  * 3. Map gallery with association info using createRefernce function.
+  */
+  angular.element(document).ready(function () {
+    globalService.findAllByExample({ publish: true, entity: "VideoGalleries" }, function (success, data) {
+      if (success && data) {
+        $scope.galleries = data;
+        $scope.galleries.forEach(function (g) {
+          createReference(g);
         });
-    }
+      }
 
-    angular.element(document).ready(function () {
-        globalService.findAllByExample({ publish: true, entity: "VideoGalleries" }, function (success, data) {
-            if (success && data) {
-                $scope.galleries = data;
-                $scope.galleries.forEach(function (g) {
-                    createReference(g);
-                });
-            }
-
-            $timeout(function () {
-                if ($scope.galleries.length > 0) {
-                    var gall = $scope.galleries[0];
-                    $scope.selectGallery(gall);
-                }
-            }, 500);
-        });
-
+      $timeout(function () {
+        if ($scope.galleries.length > 0) {
+          var gall = $scope.galleries[0];
+          $scope.selectGallery(gall);
+        }
+      }, 500);
     });
 
-    $scope.galleries = [];
-    $scope.currentGallery = new models.VideoGallery();
+  });
+
+  /**
+  * All controller variables.
+  * this.galleries: all video galleries.
+  * this.currentGallery: current selected gallerty.
+  * this.currentVideo: selected video.
+  * this.editMode: current mode.
+  * this.config:
+  */
+  $scope.galleries = [];
+  $scope.currentGallery = new models.VideoGallery();
+  $scope.currentVideo = null;
+  $scope.editMode = false;
+
+  $scope.config = {
+    width: "100%",
+    height: "auto"
+  };
+
+  /**
+  * Sortable option.
+  */
+  $scope.sortableOptions = {
+    update: function (e, ui) {
+      console.log("[Update]");
+    },
+    start: function (e, ui) {
+      console.log("[Start]");
+      $scope.dragging = true;
+
+      $scope.$apply();
+    },
+    stop: function (e, ui) {
+      console.log("[Stop]");
+
+      $timeout(function() {
+        $scope.dragging = false;
+        $scope.$apply();
+      }, 500);
+    }
+  };
+
+
+  /**
+  * Start playing video.
+  * @param {Object} video.
+  */
+  $scope.playVideo = function (video) {
     $scope.currentVideo = null;
-    $scope.editMode = false;
 
-    $scope.config = {
-        width: "100%",
-        height: "auto"
-    };
+    $timeout(function () {
+      $scope.currentVideo = video;
+      $(".live-video").load();
+      $(".live-video").load();
+    }, 200);
+  };
 
-    $scope.sortableOptions = {
-        update: function (e, ui) {
-            console.log("[Update]");
-        },
-        start: function (e, ui) {
-            console.log("[Start]");
-            $scope.dragging = true;
 
-            $scope.$apply();
-        },
-        stop: function (e, ui) {
-            console.log("[Stop]");
+  /**
+  * Is video selected.
+  * @param {Object} video.
+  * @return {Boolean} is selected.
+  */
+  $scope.isSelectedVideo = function (video) {
+    return $scope.currentVideo === video;
+  };
 
-            $timeout(function() {
-                $scope.dragging = false;
-                $scope.$apply();
-            }, 500);
+  /**
+  * Generate http uri for given  video.
+  * @param {Object} video.
+  * @return {String} http uri.
+  */
+  $scope.getVideoPath = function (video) {
+    if (!video) return "";
+    return "/api/video/" + video._id;
+  };
+
+  /**
+  * Set video as selected item.
+  * @param {Object} video.
+  */
+  $scope.selectVideo = function (video) {
+    $scope.currentVideo = video;
+  };
+
+  /**
+  * Remove video from gallery.
+  * @param {Object} video.
+  */
+  $scope.removeVideo = function (video) {
+    var index = $scope.currentGallery.$videos.indexOf(video);
+    $scope.currentGallery.$videos.splice(index, 1);
+    $scope.currentVideo = null;
+  };
+
+  /**
+  * Set gallery as selected item.
+  * @param {Object} gallery: video gallery.
+  */
+  $scope.selectGallery = function (gallery) {
+    $scope.currentGallery = gallery;
+    if (gallery.$videos.length > 0) {
+      $scope.playVideo(gallery.$videos[0]);
+    }
+  };
+
+  /**
+  * Toggle edit mode.
+  */
+  $scope.toggleMode = function () {
+    $scope.editMode = !$scope.editMode;
+  };
+
+  /**
+  * Is gallery selected.
+  */
+  $scope.isSelected = function (gallery) {
+    return gallery === $scope.currentGallery;
+  };
+
+  /**
+  * Remove gallery from database via web service.
+  * @param {Object} gallery: video gallery.
+  */
+  $scope.removeGallery = function (gallery) {
+    gallery.publish = false;
+
+    $timeout(function () {
+      globalService.update(gallery, function (success, data) {
+        if (success) {
+          var index = $scope.galleries.indexOf(gallery);
+          $scope.galleries.splice(index, 1);
+          $scope.currentGallery = new models.VideoGallery();
         }
-    };
+      });
+    }, 500);
+  };
 
-    $scope.playVideo = function (video) {
-        $scope.currentVideo = null;
+  /**
+  * Show from for adding new gallery.
+  */
+  $scope.newGallery = function () {
+    $scope.currentGallery = new models.VideoGallery();
+    $scope.editMode = true;
+  };
 
-        $timeout(function () {
-            $scope.currentVideo = video;
-            $(".live-video").load();
-            $(".live-video").load();
-        }, 200);
-    };
+  /**
+  * Display gallery as edit mode.
+  * @param {Object} gallery: video gallery.
+  */
+  $scope.editGallery = function (gallery) {
+    $scope.editMode = true;
+    $scope.currentGallery = gallery;
+  };
 
-    $scope.isSelectedVideo = function (video) {
-        return $scope.currentVideo === video;
-    };
 
-    $scope.getVideoPath = function (video) {
-        if (!video) return "";
-        return "/api/video/" + video._id;
-    };
+  /**
+  * Save video gallery into database via web service.
+  * @param {Object} video gallery.
+  */
+  $scope.saveGallery = function (gallery) {
+    gallery.objectIds = [];
+    gallery.$videos.forEach(function (v) {
+      gallery.objectIds.push(v._id);
+    });
 
-    $scope.selectVideo = function (video) {
-        $scope.currentVideo = video;
-    };
-
-    $scope.removeVideo = function (video) {
-        var index = $scope.currentGallery.$videos.indexOf(video);
-        $scope.currentGallery.$videos.splice(index, 1);
-        $scope.currentVideo = null;
-    };
-
-    $scope.selectGallery = function (gallery) {
-        $scope.currentGallery = gallery;
-        if (gallery.$videos.length > 0) {
-            $scope.playVideo(gallery.$videos[0]);
+    globalService.update(gallery, function (success, data) {
+      if (success) {
+        if (!gallery._id) {
+          createReference(data);
+          $scope.galleries.push(data);
         }
-    };
-
-    $scope.toggleMode = function () {
-        $scope.editMode = !$scope.editMode;
-    };
-
-    $scope.isSelected = function (gallery) {
-        return gallery === $scope.currentGallery;
-    };
-
-    $scope.removeGallery = function (gallery) {
-        gallery.publish = false;
-
-        $timeout(function () {
-            globalService.update(gallery, function (success, data) {
-                if (success) {
-                    var index = $scope.galleries.indexOf(gallery);
-                    $scope.galleries.splice(index, 1);
-                    $scope.currentGallery = new models.VideoGallery();
-                }
-            });
-        }, 500);
-    };
-
-    $scope.newGallery = function () {
         $scope.currentGallery = new models.VideoGallery();
-        $scope.editMode = true;
-    };
+      }
+    });
+  };
 
-    $scope.editGallery = function (gallery) {
-        $scope.editMode = true;
-        $scope.currentGallery = gallery;
-    };
+  /**
+  * Upload file immediatly alter select video files.
+  * @param {Array} list of video files.
+  */
+  $scope.onFileSelect = function ($files) {
+    $files.forEach(function (file) {
+      $scope.upload = $upload.upload({
+        url: "/api/upload/video",
+        data: {},
+        file: file
+      });
 
-    $scope.saveGallery = function (gallery) {
+      $scope.upload.progress(function (evt) {
+        var percent = parseInt(100.0 * evt.loaded / evt.total);
+        console.log(percent);
+      });
 
-        gallery.objectIds = [];
-        gallery.$videos.forEach(function (v) {
-            gallery.objectIds.push(v._id);
-        });
+      $scope.upload.success(function (data, status, headers, config) {
+        console.log($scope.currentGallery);
+        $scope.currentGallery.$videos.push(data);
+      });
+    });
 
-        globalService.update(gallery, function (success, data) {
-            if (success) {
-                if (!gallery._id) {
-                    createReference(data);
-                    $scope.galleries.push(data);
-                }
-                $scope.currentGallery = new models.VideoGallery();
-            }
-        });
-    };
-
-    $scope.onFileSelect = function ($files) {
-        $files.forEach(function (file) {
-            $scope.upload = $upload.upload({
-                url: "/api/upload/video",
-                data: {},
-                file: file
-            });
-
-            $scope.upload.progress(function (evt) {
-                var percent = parseInt(100.0 * evt.loaded / evt.total);
-                console.log(percent);
-            });
-
-            $scope.upload.success(function (data, status, headers, config) {
-                console.log($scope.currentGallery);
-                $scope.currentGallery.$videos.push(data);
-            });
-        });
-    };
+  };
 });

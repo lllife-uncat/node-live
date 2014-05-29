@@ -2,91 +2,76 @@
 
 <!--<thml lang="en" >-->
 <html data-ng-app="liveApplication" data-ng-controller="MainController">
+    <head>
+        <meta charset="UTF-8">
+        <title data-ng-bind="title">Live</title>
+        <script src="/vendors/jquery/jquery.js"></script>
+        <script src="/vendors/jqueryui/jquery-ui.min.js"></script>
+        <script src="/vendors/semantic/javascript/semantic.js"></script>
+        <script src="/vendors/angular/angular.js"></script>
+        <script src="/vendors/angular-route/angular-route.js"></script>
+        <script src="/vendors/underscore/underscore.js"></script>
+        <script src="/vendors/angular-file-upload/angular-file-upload.js"></script>
+        <script src="/vendors/videojs/video.js"></script>
+        <script src="/vendors/angular-sanitize/angular-sanitize.js"></script>
+        <!--<script src="/vendors/videogular/videogular.js"></script>-->
+        <!--<script src="/vendors/imagesloaded/imagesloaded.js"></script>-->
+        <script src="/vendors/BigVideo.js/lib/bigvideo.js"></script>
 
-<head>
-    <meta charset="UTF-8">
+        <script src="/vendors/ui-sortable/sortable.js"></script>
+        <script src="/final.js"></script>
 
-    <title data-ng-bind="title">Live</title>
+        <!-- dev -->
+        <script src="//10.0.0.77:3333/livereload.js"></script>
 
-    <script src="/vendors/jquery/jquery.js"></script>
-    <script src="/vendors/jqueryui/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="/vendors/animate.css/animate.css"/>
+        <link rel="stylesheet" href="/css/style.css"/>
+        <link rel="stylesheet" href="/vendors/semantic/css/semantic.css"/>
+        <link rel="stylesheet" href="/vendors/CreativeLinkEffects/css/component.css"/>
+        <link rel="stylesheet" href="/vendors/videojs/video-js.css"/>
+        <link rel="stylesheet" href="/vendors/BigVideo.js/css/bigvideo.css"/>
 
+    </head>
 
-    <script src="/vendors/semantic/javascript/semantic.js"></script>
-    <script src="/vendors/angular/angular.js"></script>
-    <script src="/vendors/angular-route/angular-route.js"></script>
-    <script src="/vendors/underscore/underscore.js"></script>
-    <script src="/vendors/angular-file-upload/angular-file-upload.js"></script>
+    <!--<body data-ng-app="liveApplication" data-ng-controller="MainController">-->
+    <body data-ng-controller="MainController">
+        <section class="live-body">
+            <div class="ui raised segment">
 
-    <script src="/vendors/videojs/video.js"></script>
-    <script src="/vendors/angular-sanitize/angular-sanitize.js"></script>
-    <!--<script src="/vendors/videogular/videogular.js"></script>-->
-    <!--<script src="/vendors/imagesloaded/imagesloaded.js"></script>-->
-    <script src="/vendors/BigVideo.js/lib/bigvideo.js"></script>
+                <header class="live-header"> </header>
 
-    <script src="/vendors/ui-sortable/sortable.js"></script>
-    <script src="/final.js"></script>
+                <section style="padding-bottom: 30px">
+                    <div class="live-menu">
+                        <nav class="cl-effect-3">
+                            <a href="#/home"><i class="ui circular inverted icon home animated rotateIn"></i> Home</a>
+                            <a href="#/branch"><i class="ui circular inverted icon sitemap animated rotateIn"></i> Branch</a>
+                            <a href="#/video"><i class="ui circular inverted icon video animated rotateIn"></i> Video</a>
+                            <a href="#/picture"><i class="ui circular inverted icon photo animated rotateIn"></i> Picture</a>
+                            <a href="#/playlist"><i class="ui circular inverted icon align justify animated rotateIn"></i> Playlist</a>
+                        </nav>
+                    </div>
 
-    <!-- dev -->
-    <script src="//10.0.0.67:3333/livereload.js"></script>
+                    <div class="live-view">
+                        <div data-ng-view></div>
+                    </div>
+                </section>
 
-    <link rel="stylesheet" href="/vendors/animate.css/animate.css"/>
-    <link rel="stylesheet" href="/css/style.css"/>
-    <link rel="stylesheet" href="/vendors/semantic/css/semantic.css"/>
-    <link rel="stylesheet" href="/vendors/CreativeLinkEffects/css/component.css"/>
-    <link rel="stylesheet" href="/vendors/videojs/video-js.css"/>
-    <link rel="stylesheet" href="/vendors/BigVideo.js/css/bigvideo.css"/>
+                <footer class="live-foot">
+                    <div data-ng-click="stopVideo()" style="margin: 10px 0;cursor: pointer">
+                        <label for="" style="color: gray;cursor: pointer">
+                            <i class="ui video icon"></i> Play / Pause
+                        </label><br/>
+                    </div>
 
-</head>
+                    <div>
+                        <label for=""> Playlist Manager 0.1 </label> <br/>
+                        <label for=""> K&amp;O Systems and Consulting. 2013 </label>
+                    </div>
+                </footer>
+            </div>
 
-<!--<body data-ng-app="liveApplication" data-ng-controller="MainController">-->
-<body data-ng-controller="MainController">
+        </section>
 
-<div class="ui raised segment live-content">
-
-    <header class="live-header">
-    </header>
-
-    <div style="padding-bottom: 30px">
-
-
-        <div class="live-menu">
-            <nav class="cl-effect-3">
-                <a href="#/home"><i class="ui circular inverted icon home animated rotateIn"></i> Home</a>
-                <a href="#/branch"><i class="ui circular inverted icon sitemap animated rotateIn"></i> Branch</a>
-                <a href="#/video"><i class="ui circular inverted icon video animated rotateIn"></i> Video</a>
-                <a href="#/picture"><i class="ui circular inverted icon photo animated rotateIn"></i> Picture</a>
-                <a href="#/playlist"><i class="ui circular inverted icon align justify animated rotateIn"></i> Playlist</a>
-            </nav>
-        </div>
-
-        <div class="live-view">
-            <div data-ng-view></div>
-        </div>
-
-    </div>
-
-    <div class="live-foot">
-
-        <div data-ng-click="stopVideo()" style="margin: 10px 0;cursor: pointer">
-            <label for="" style="color: gray;cursor: pointer">
-                <i class="ui video icon"></i> Play / Pause
-            </label><br/>
-        </div>
-
-        <div>
-
-            <label for="">
-                Playlist Manager 0.1
-            </label> <br/>
-            <label for="">
-                K&O Systems and Consulting. 2013
-            </label>
-        </div>
-    </div>
-
-</div>
-
-</body>
+    </body>
 
 </html>

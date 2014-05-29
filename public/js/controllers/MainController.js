@@ -1,6 +1,6 @@
 app.controller("MainController", function($scope, playerService, globalService){
     $scope.stopVideo = function(){
-        playerService.video.stop();
+        // playerService.video.stop();
     };
 
     angular.element(document).ready(function(){
