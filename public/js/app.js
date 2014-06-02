@@ -40,6 +40,11 @@ app.config(function($routeProvider){
         controller: "PlaylistController"
     });
 
+    $routeProvider.when("/device", {
+        templateUrl: "views/device.html",
+        controller: "DeviceController"
+    });
+
     $routeProvider.otherwise({ redirect: "/"});
 });
 
