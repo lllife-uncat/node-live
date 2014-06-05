@@ -1,0 +1,55 @@
+<div class="ui grid">
+    <div class="six wide column">
+        <div class="ui segment">
+            <a href="" class="live-link" >
+            <i class="desktop circular icon"></i> All Devices
+            </a>
+            <div class="ui section divider" style="margin: 10px 0px"></div>
+            <div class="ui secondary vertical pointing menu" style="width: 100%">
+                <a class="item animated fadeIn" data-ng-repeat="dv in devices"
+                data-ng-class="{ 'active' : isSelectedDevice(dv) }"
+                data-ng-click="selectDevice(dv)">
+                <i class="align justify icon"
+                data-ng-class="{ 'animated tada black': isSelectedDevice(dv), 'animated flash': !dv.publish }"></i>
+                <span>
+                <i class="ui"> {{$index + 1}}.</i>
+                {{dv.serialNumber}}
+                </span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="ten wide column">
+        <div>
+            <div style="padding-bottom: 10px;">
+                <label>List of Playlists </label>
+            </div>
+            <div>
+                <table class="ui mini table segment">
+                    <thead>
+                        <tr>
+                            <th><i class="ui bolt icon"></i></th>
+                            <th>Title</th>
+                            <th>Galleries</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="pl in playlists" class="animated fadeIn">
+                            <td>
+                                <span class="live-index">
+                                {{ $index+1 }}.
+                                </span>
+                            </td>
+                            <td>{{ pl.title }}</td>
+                            <td>
+                                <i class="ui icon"
+                                data-ng-repeat="gallery in pl.$galleries"
+                                data-ng-class="{ video: gallery.entity === 'VideoGalleries', photo: gallery.entity === 'PictureGalleries' }"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

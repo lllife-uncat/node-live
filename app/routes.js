@@ -5,6 +5,7 @@ var utils = require("./modules/setting").utils;
 var fs = require("fs");
 var path = require("path");
 var playlist = require("./modules/playlist");
+var playlist2 = require("./modules/playlist2");
 
 module.exports = function (app) {
 
@@ -250,4 +251,19 @@ module.exports = function (app) {
       }
     });
   });
+
+  app.get("/api/playlists/:serialNumber/:number", function(req, res){
+        var sn = req.params.serialNumber;
+        var number = req.params.number;
+
+        playlist2.getDevicePlaylists2(sn, number, function(success, playlists){
+            if(!success) {
+                res.statusCode = 400;
+                res.json({});
+            }else {
+                res.json(playlists);
+            }
+        });
+    });
+  
 };
